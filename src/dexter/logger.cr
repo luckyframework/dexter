@@ -4,7 +4,7 @@ require "./formatters/*"
 class Dexter::Logger < Logger
   VERSION = "0.1.0"
 
-  property log_formatter : Dexter::Formatters::BaseLogFormatter
+  property log_formatter : Dexter::Formatters::BaseLogFormatter.class
 
   # The built-in Crystal Logger requires a formatter, but we don't use it.
   # We instead override the `write` method and use our own formatter that
@@ -16,7 +16,7 @@ class Dexter::Logger < Logger
   def initialize(
     @io : IO?,
     @level = Severity::INFO,
-    @log_formatter = Dexter::Formatters::JsonLogFormatter.new,
+    @log_formatter = Dexter::Formatters::JsonLogFormatter,
     @progname = ""
   )
     @formatter = UNUSED_FORMATTER
@@ -66,13 +66,12 @@ class Dexter::Logger < Logger
 
     progname_to_s = progname.to_s
     @mutex.synchronize do
-      log_formatter.format(
+      log_formatter.new(
         severity: severity,
         timestamp: datetime,
         progname: progname_to_s,
-        data: data,
         io: io
-      )
+      ).format(data)
       io.puts
       io.flush
     end

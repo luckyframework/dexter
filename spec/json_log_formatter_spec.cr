@@ -7,13 +7,12 @@ describe Dexter::Formatters::JsonLogFormatter do
     }
     io = IO::Memory.new
 
-    Dexter::Formatters::JsonLogFormatter.new.format(
+    Dexter::Formatters::JsonLogFormatter.new(
       severity: Logger::Severity::INFO,
       timestamp: timestamp,
       progname: "",
-      data: data,
       io: io
-    )
+    ).format(data)
 
     io.to_s.chomp.should eq(
       {severity: "INFO", timestamp: timestamp, my_data: "is great!"}.to_json

@@ -1,13 +1,17 @@
 module Dexter
   module Formatters
-    abstract class BaseLogFormatter
-      abstract def format(
-        severity : ::Logger::Severity,
-        timestamp : Time,
-        progname : String,
-        data : NamedTuple,
-        io : IO
-      ) : Void
+    abstract struct BaseLogFormatter
+      private getter severity, timestamp, progname, io, data
+
+      def initialize(
+        @severity : ::Logger::Severity,
+        @timestamp : Time,
+        @progname : String,
+        @io : IO
+      )
+      end
+
+      abstract def format(data : NamedTuple) : Void
     end
   end
 end

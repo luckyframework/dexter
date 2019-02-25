@@ -3,14 +3,8 @@ require "./base_log_formatter"
 
 module Dexter
   module Formatters
-    class JsonLogFormatter < BaseLogFormatter
-      def format(
-        severity : ::Logger::Severity,
-        timestamp : Time,
-        progname : String,
-        data,
-        io : IO
-      ) : Void
+    struct JsonLogFormatter < BaseLogFormatter
+      def format(data) : Void
         {severity: severity.to_s, timestamp: timestamp}.merge(data).to_json(io)
       end
     end
