@@ -1,6 +1,6 @@
-# dexter
+# Dexter
 
-TODO: Write a description here
+A library for logging.
 
 ## Installation
 
@@ -9,7 +9,7 @@ TODO: Write a description here
    ```yaml
    dependencies:
      dexter:
-       github: your-github-user/dexter
+       github: luckyframework/dexter
    ```
 
 2. Run `shards install`
@@ -20,15 +20,11 @@ TODO: Write a description here
 require "dexter"
 ```
 
-TODO: Write usage instructions here
 
-## Development
-
-TODO: Write development instructions here
 
 ## Contributing
 
-1. Fork it (<https://github.com/your-github-user/dexter/fork>)
+1. Fork it (<https://github.com/luckyframework/dexter/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
@@ -36,4 +32,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [Paul Smith](https://github.com/your-github-user) - creator and maintainer
+- [Paul Smith](https://github.com/paulcsmith) - creator and maintainer
