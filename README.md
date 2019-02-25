@@ -2,12 +2,15 @@
 
 A library for logging data and formatting it however you need
 
-* 100% compatible with buil-in Crystal logger
+* 100% compatible with built-in Crystal logger
 * Adds additional methods for logging data instead of strings
 * Custom formatters to log data any way you want
 
 Included is a `JsonLogFormatter`, but you can create your own formatter to format
-and output the data however you want.
+and output the data however you want. For example,
+[Lucky](https://luckyframework.org) has a `PrettyLogFormatter` that formats data
+in a human readable format during development, and uses the `JsonLogFormatter`
+in production.
 
 ## Installation
 
@@ -32,9 +35,18 @@ logger = Dexter::Logger.new(
   log_formatter: Dexter::Formatters::JsonLogFormatter.new
 )
 
-# We're using 'info' but you can do this for 'debug', 'warn', 'error' as well.
-logger.info(foo: "bar") # Logs timestamp, severity and {foo: "bar"} as JSON
-logger.info("My message) # Logs timestamp, severity and {message: "My message"} as JSON
+# These examples use 'info' but you can use 'debug', 'warn', and 'error' as well.
+#
+# Logs timestamp, severity and {foo: "bar"} as JSON
+logger.info(foo: "bar")
+
+# Compatible with built-in Crystal logger for logging string messages
+#
+# Logs timestamp, severity and {message: "My message"} as JSON
+logger.info("My message")
+
+# Or pass the severity in:
+logger.log(severity: Logger::Severity::DEBUG, foo: "bar")
 ```
 
 ## Contributing
