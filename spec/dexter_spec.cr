@@ -1,13 +1,7 @@
 require "./spec_helper"
 
-private class RawFormatter < Dexter::Formatters::BaseLogFormatter
-  def format(
-    severity,
-    timestamp,
-    progname,
-    data,
-    io
-  )
+private struct RawFormatter < Dexter::Formatters::BaseLogFormatter
+  def format(data)
     io << data
   end
 end
@@ -67,7 +61,5 @@ describe Dexter::Logger do
 end
 
 private def build_logger(io = STDOUT)
-  Dexter::Logger.new(io, level: Logger::Severity::DEBUG).tap do |logger|
-    logger.log_formatter = RawFormatter.new
-  end
+  Dexter::Logger.new(io, level: Logger::Severity::DEBUG, log_formatter: RawFormatter)
 end
