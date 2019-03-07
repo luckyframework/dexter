@@ -2,8 +2,6 @@ require "logger"
 require "./formatters/*"
 
 class Dexter::Logger < Logger
-  VERSION = "0.1.0"
-
   property log_formatter : Dexter::Formatters::BaseLogFormatter.class
 
   # The built-in Crystal Logger requires a formatter, but we don't use it.
