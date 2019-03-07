@@ -51,7 +51,7 @@ class Dexter::Logger < Logger
 
   # :nodoc:
   def formatter=(value) : Void
-    {% raise "Use log_formatter= instead" %}
+    {% p "Use log_formatter= instead" %}
   end
 
   private def write(severity : ::Logger::Severity, datetime : Time, progname, message : String | NamedTuple) : Void
