@@ -18,8 +18,8 @@ module Dexter
       @log_formatter = Dexter::Formatters::JsonLogFormatter,
       @progname = ""
     )
-      super
       @formatter = UNUSED_FORMATTER
+      super
     end
 
     {% for name in ::Logger::Severity.constants %}
