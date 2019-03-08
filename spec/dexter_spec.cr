@@ -14,6 +14,7 @@ describe Dexter::Logger do
   it "converts string into NamedTuple" do
     io = IO::Memory.new
     logger = build_logger(io)
+    logger.formatter = "Whatever"
 
     logger.info("Something")
 

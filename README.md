@@ -2,7 +2,7 @@
 
 A library for logging data and formatting it however you need
 
-* 100% compatible with built-in Crystal logger
+* 99% compatible with built-in Crystal logger ([see caveat](#compatibility-caveat)).
 * Adds additional methods for logging data instead of strings
 * Custom formatters to log data any way you want
 
@@ -48,6 +48,42 @@ logger.info("My message")
 # Or pass the severity in:
 logger.log(severity: Logger::Severity::DEBUG, foo: "bar")
 ```
+
+## Compatibility Caveat
+
+Dexter will work everywhere the built-in Crystal `Logger` works. The only
+caveat is that Dexter ignores the `formatter` used by `Logger` because Dexter
+uses its own formatter that is incompatible with Crystal's `Logger`.
+
+So what does this mean? **In practice, it is a non-issue**. If you are using
+Dexter it is because you want the Dexter formatting, not the Crystal formatter.
+
+For example, in this code the formatter will not be used, and Dexter will print a warning:
+
+```crystal
+logger = Dexter::Logger.new(STDOUT)
+
+# This will print a warning message and the formatter will not be used
+#
+# Usually people do this on accident or because the app was using the default
+# Crystal Logger and is being upgraded to Dexter.
+logger.formatter = ::Logger::Formatter.new do |severity, datetime, progname, message, io|
+  "This will not ever run"
+end
+```
+
+The fix is simple, use a Dexter formatter and set it with `log_formatter=` instead:
+
+```crystal
+logger = Dexter::Logger.new(STDOUT)
+# Use 'log_formatter=' as documented in the README
+logger.log_formatter = Dexter::Formatters::JsonLogFormatter
+```
+
+> **Q:** Why is 'formatter=' defined in Dexter if Dexter ignores it?
+
+> **A** For Dexter to be usable in libraries that accept a Crystal `Logger`,
+> Dexter must have all the same methods as `Logger`.
 
 ## Contributing
 
