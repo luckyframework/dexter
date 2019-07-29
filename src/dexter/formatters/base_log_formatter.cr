@@ -11,7 +11,7 @@ module Dexter
       )
       end
 
-      abstract def format(data : NamedTuple) : Void
+      abstract def format(data : NamedTuple) : Nil
     end
   end
 end
