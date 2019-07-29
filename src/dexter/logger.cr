@@ -25,7 +25,7 @@ module Dexter
 
     {% for name in ::Logger::Severity.constants %}
     # Logs *message* if the logger's current severity is lower or equal to `{{name.id}}`.
-    def {{name.id.downcase}}(data : NamedTuple) : Void
+    def {{name.id.downcase}}(data : NamedTuple) : Nil
       log(Severity::{{name.id}}, data)
     end
 
@@ -34,28 +34,28 @@ module Dexter
     # Same as `{{ name.id }} but does not require surrounding data with {}:
     #
     # Example: `Dexter::Logger.new(STDOUT).{{ name.id }}(data: "my_data")`
-    def {{name.id.downcase}}(**data) : Void
+    def {{name.id.downcase}}(**data) : Nil
       log(Severity::{{name.id}}, data)
     end
   {% end %}
 
-    def log(severity : ::Logger::Severity, **data) : Void
+    def log(severity : ::Logger::Severity, **data) : Nil
       log(severity: severity, data: data)
     end
 
-    def log(severity : ::Logger::Severity, data : NamedTuple) : Void
+    def log(severity : ::Logger::Severity, data : NamedTuple) : Nil
       return if severity < level || !@io
       write(severity, Time.now, @progname, data)
     end
 
     # :nodoc:
-    def formatter=(value) : Void
+    def formatter=(value) : Nil
       puts <<-TEXT
       Dexter::Logger ignores 'formatter=' because it uses its own formatter. Please use 'log_formatter=' instead.
       TEXT
     end
 
-    private def write(severity : ::Logger::Severity, datetime : Time, progname, message : String | NamedTuple) : Void
+    private def write(severity : ::Logger::Severity, datetime : Time, progname, message : String | NamedTuple) : Nil
       io = @io
       return unless io
 
