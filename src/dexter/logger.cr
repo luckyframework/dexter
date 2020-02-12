@@ -45,7 +45,7 @@ module Dexter
 
     def log(severity : ::Logger::Severity, data : NamedTuple) : Nil
       return if severity < level || !@io
-      write(severity, Time.now, @progname, data)
+      write(severity, Time.utc, @progname, data)
     end
 
     # :nodoc:
