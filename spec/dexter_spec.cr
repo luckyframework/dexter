@@ -11,14 +11,15 @@ describe Dexter::Logger do
     build_logger.should be_a(::Logger)
   end
 
-  it "converts string into NamedTuple" do
+  it "ignores the base logger formatter=, but still returns the logging" do
     io = IO::Memory.new
     logger = build_logger(io)
     logger.formatter = "Whatever"
 
     logger.info("Something")
 
-    io.to_s.chomp.should eq(%({message: "Something"}))
+    io.to_s.chomp.should contain(%(Please use 'log_formatter=' instead))
+    io.to_s.chomp.should contain(%({message: "Something"}))
   end
 
   it "converts string into NamedTuple" do
