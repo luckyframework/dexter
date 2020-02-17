@@ -50,7 +50,7 @@ module Dexter
 
     # :nodoc:
     def formatter=(value) : Nil
-      puts <<-TEXT
+      (@io || STDOUT).puts <<-TEXT
       Dexter::Logger ignores 'formatter=' because it uses its own formatter. Please use 'log_formatter=' instead.
       TEXT
     end
