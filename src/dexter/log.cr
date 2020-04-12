@@ -1,5 +1,5 @@
 require "log"
-require "./formatters/*"
+require "./json_log_formatter"
 require "./log/context"
 
 class Log
@@ -13,10 +13,17 @@ class Log
   }
 
   {% for method, severity in SEVERITY_MAP %}
-    # Logs key/value data using NamedTuple
+    # Logs a `String` message or key/value data using a `NamedTuple`
     #
     # ```crystal
     # Log.{{ method.id }} { {path: "/comments", status: 200} }
+    # Log.{{ method.id }} { "My mesage" }
+    # ```
+    #
+    # You can also pass an exception:
+    #
+    # ```crystal
+    # Log.{{ method.id }}(exception) { "My mesage" }
     # ```
     def {{method.id}}(*, exception : Exception? = nil)
       return unless backend = @backend
@@ -32,12 +39,9 @@ class Log
           write_entry_to_io(backend, severity, message: "", exception: exception)
         end
       else
-        # Add string message to context as {message: "the message"}
-        Log.with_context do
-          Log.context.set(message: block_result)
-          # Always set entry message to blank since it is now part of the context
-          write_entry_to_io(backend, severity, message: "", exception: exception)
-        end
+        # This falls back to the regular Crystal log behavior and
+        # assigns the message String
+        write_entry_to_io(backend, severity, message: block_result.to_s, exception: exception)
       end
     end
   {% end %}

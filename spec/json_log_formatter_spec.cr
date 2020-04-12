@@ -1,32 +1,67 @@
 require "./spec_helper"
 
-describe Dexter::Formatters::JSONLogFormatter do
-  # Ignores Log::Entry#message since Dexter override log methods and set message to ""
-  it "formats the context data as JSON and ignores message" do
+describe Dexter::JSONLogFormatter do
+  it "formats the context data as JSON and skips message if empty" do
     io = IO::Memory.new
-    entry = build_entry({my_data: "is great!"}, source: "json-test")
+    entry = build_entry({my_data: "is great!"}, source: "json-test", severity: :debug)
 
-    format(io, entry)
+    format(entry, io)
 
     io.to_s.chomp.should eq(
-      {severity: "Info", source: "json-test", timestamp: timestamp, my_data: "is great!"}.to_json
+      {severity: "Debug", source: "json-test", timestamp: timestamp, my_data: "is great!"}.to_json
     )
   end
 
+  it "merge the message if present" do
+    io = IO::Memory.new
+    entry = build_entry({my_data: "is great!"}, message: "my message")
+
+    format(entry, io)
+
+    log = JSON.parse(io.to_s.chomp).as_h
+    log["message"].as_s.should eq("my message")
+    log["my_data"].as_s.should eq("is great!")
+  end
+
   it "merges exception data if present" do
+    io = IO::Memory.new
+    entry = build_entry({my_data: "is great!"}, exception: RuntimeError.new("This is my error"))
+
+    format(entry, io)
+
+    error = JSON.parse(io.to_s.chomp).as_h["error"]
+    error["class"].as_s.should eq("RuntimeError")
+    error["message"].as_s.should eq("This is my error")
+    # Backtace should be nil since error was instantiated manually
+    error["backtrace"].as_nil.should be_nil
+  end
+
+  it "adds exception backtrace data if present" do
+    begin
+      # Must raise an error so we get a backtrace to test against.
+      raise RuntimeError.new("This is my error")
+    rescue e : RuntimeError
+      io = IO::Memory.new
+      entry = build_entry({my_data: "is great!"}, exception: e)
+
+      format(entry, io)
+
+      error = JSON.parse(io.to_s.chomp).as_h["error"]
+      error["backtrace"].as_a.map(&.as_s).should be_a(Array(String))
+    end
   end
 end
 
-private def format(io : IO, entry : Log::Entry)
+private def format(entry : Log::Entry, io : IO)
   Dexter::Formatters::JSONLogFormatter.call(entry, io)
 end
 
-private def build_entry(context : NamedTuple, source = "", severity = Log::Severity::Info, exception : Exception? = nil)
+private def build_entry(context : NamedTuple, message = "", source = "", severity : Log::Severity = Log::Severity::Info, exception : Exception? = nil)
   Log.with_context do
     Log.context.set context
     entry = Log::Entry.new \
       source: source,
-      message: "",
+      message: message,
       severity: severity,
       exception: exception
     entry.timestamp = timestamp
@@ -35,5 +70,5 @@ private def build_entry(context : NamedTuple, source = "", severity = Log::Sever
 end
 
 private def timestamp
-  Time.utc(2016, 2, 15)
+  Time.utc(2020, 2, 15)
 end
