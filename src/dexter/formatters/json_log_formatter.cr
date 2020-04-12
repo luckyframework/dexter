@@ -1,11 +1,16 @@
-# require "json"
+require "json"
 
-# module Dexter
-#   module Formatters
-#     struct JsonLogFormatter < Log::Formatter
-#       # def format(data) : Nil
-#       #   {severity: severity.to_s, timestamp: timestamp}.merge(data).to_json(io)
-#       # end
-#     end
-#   end
-# end
+module Dexter
+  module Formatters
+    JSONLogFormatter = ->(entry : Log::Entry, io : IO) {
+      {
+        "severity"  => entry.severity.to_s,
+        "source"    => entry.source,
+        "timestamp" => entry.timestamp,
+      }
+        .merge(entry.context.to_h)
+        .compact
+        .to_json(io)
+    }
+  end
+end

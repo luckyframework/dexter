@@ -32,7 +32,12 @@ class Log
           write_entry_to_io(backend, severity, message: "", exception: exception)
         end
       else
-        write_entry_to_io(backend, severity, message: "", exception: exception)
+        # Add string message to context as {message: "the message"}
+        Log.with_context do
+          Log.context.set(message: block_result)
+          # Always set entry message to blank since it is now part of the context
+          write_entry_to_io(backend, severity, message: "", exception: exception)
+        end
       end
     end
   {% end %}
