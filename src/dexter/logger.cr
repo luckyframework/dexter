@@ -1,6 +1,7 @@
 require "logger"
 require "./formatters/*"
 
+@[Deprecated("Use `Log` module instead")]
 module Dexter
   class Logger < ::Logger
     property log_formatter : Dexter::Formatters::BaseLogFormatter.class
@@ -24,16 +25,12 @@ module Dexter
     end
 
     {% for name in ::Logger::Severity.constants %}
-    # Logs *message* if the logger's current severity is lower or equal to `{{name.id}}`.
+    @[Deprecated("Use `Log` module instead")]
     def {{name.id.downcase}}(data : NamedTuple) : Nil
       log(Severity::{{name.id}}, data)
     end
 
-    # Logs *message* if the logger's current severity is lower or equal to `{{name.id}}`.
-    #
-    # Same as `{{ name.id }} but does not require surrounding data with {}:
-    #
-    # Example: `Dexter::Logger.new(STDOUT).{{ name.id }}(data: "my_data")`
+    @[Deprecated("Use `Log` module instead")]
     def {{name.id.downcase}}(**data) : Nil
       log(Severity::{{name.id}}, data)
     end

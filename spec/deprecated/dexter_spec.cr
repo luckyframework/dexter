@@ -1,4 +1,4 @@
-require "./spec_helper"
+require "../spec_helper"
 
 private struct RawFormatter < Dexter::Formatters::BaseLogFormatter
   def format(data) : Nil
