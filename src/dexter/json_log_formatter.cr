@@ -1,17 +1,8 @@
 require "json"
 
 module Dexter
-  JSONLogFormatter = ->(entry : Log::Entry, io : IO) {
-    JSONLogFormatterImplementation.new(entry, io).call
-  }
-
-  struct JSONLogFormatterImplementation
+  struct JSONLogFormatter < BaseFormatter
     alias ContextPrimitive = Bool | Float32 | Float64 | Int32 | Int64 | String | Time
-
-    getter entry, io
-
-    def initialize(@entry : Log::Entry, @io : IO)
-    end
 
     def call
       data = {
