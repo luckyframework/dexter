@@ -7,7 +7,7 @@ describe Log do
         log.{{ name.id.downcase }} { {foo: "bar" }}
       end
 
-      entry.context.to_h.should eq({"foo" => "bar"})
+      entry.context.as_h.transform_values(&.as_s).should eq({"foo" => "bar"})
       entry.message.should eq("")
     end
   {% end %}
@@ -20,7 +20,9 @@ describe Log do
       end
     end
 
-    entry.context.to_h.should eq({"user" => 1, "foo" => "bar"})
+    entry.context.as_h.transform_values do |v|
+      v.as_s? || v.as_i
+    end.should eq({"user" => 1, "foo" => "bar"})
     entry.message.should eq("")
   end
 

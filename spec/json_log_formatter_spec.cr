@@ -12,6 +12,19 @@ describe Dexter::JSONLogFormatter do
     )
   end
 
+  it "formats complex types" do
+    io = IO::Memory.new
+    entry = build_entry({args: [1], params: {foo: "bar"}, other: {arr: [1]}}, source: "json-test", severity: :debug)
+
+    format(entry, io)
+
+    log = JSON.parse(io.to_s.chomp).as_h
+    log["args"].as_a.should eq([1])
+    log["params"].as_h.should eq({"foo" => "bar"})
+    # Don't worry about hashes with complex types, just to_s the value
+    log["other"].as_h.should eq({"arr" => "[1]"})
+  end
+
   it "merge the message if present" do
     io = IO::Memory.new
     entry = build_entry({my_data: "is great!"}, message: "my message")
@@ -56,7 +69,7 @@ private def format(entry : Log::Entry, io : IO)
   Dexter::JSONLogFormatter.call(entry, io)
 end
 
-private def build_entry(context : NamedTuple, message = "", source = "", severity : Log::Severity = Log::Severity::Info, exception : Exception? = nil)
+private def build_entry(context, message = "", source = "", severity : Log::Severity = Log::Severity::Info, exception : Exception? = nil)
   Log.with_context do
     Log.context.set context
     entry = Log::Entry.new \
