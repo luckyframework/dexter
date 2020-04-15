@@ -1,7 +1,5 @@
 module Dexter
   abstract struct BaseFormatter
-    alias ContextPrimitive = Bool | Float32 | Float64 | Int32 | Int64 | String | Time
-
     getter entry, io
 
     def self.proc
