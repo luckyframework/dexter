@@ -1,6 +1,5 @@
 require "log"
 require "./json_log_formatter"
-require "./log/context"
 
 class Log
   SEVERITY_MAP = {
