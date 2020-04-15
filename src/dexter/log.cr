@@ -1,4 +1,5 @@
 require "log"
+require "./base_formatter"
 require "./json_log_formatter"
 
 class Log

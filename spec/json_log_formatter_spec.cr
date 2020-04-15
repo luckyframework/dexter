@@ -66,7 +66,7 @@ describe Dexter::JSONLogFormatter do
 end
 
 private def format(entry : Log::Entry, io : IO)
-  Dexter::JSONLogFormatter.call(entry, io)
+  Dexter::JSONLogFormatter.proc.call(entry, io)
 end
 
 private def build_entry(context, message = "", source = "", severity : Log::Severity = Log::Severity::Info, exception : Exception? = nil)
