@@ -1,4 +1,5 @@
 require "log"
+require "./log/context"
 require "./base_formatter"
 require "./json_log_formatter"
 

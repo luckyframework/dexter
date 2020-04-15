@@ -21,8 +21,7 @@ describe Dexter::JSONLogFormatter do
     log = JSON.parse(io.to_s.chomp).as_h
     log["args"].as_a.should eq([1])
     log["params"].as_h.should eq({"foo" => "bar"})
-    # Don't worry about hashes with complex types, just to_s the value
-    log["other"].as_h.should eq({"arr" => "[1]"})
+    log["other"].as_h.should eq({"arr" => [1]})
   end
 
   it "merge the message if present" do
