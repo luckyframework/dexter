@@ -26,6 +26,9 @@ describe Log do
     entry.message.should eq("")
   end
 
+  it "allows logging data with nil values" do
+  end
+
   it "leaves message String as-is and does not add it to the context" do
     entry = log_stubbed do |log|
       log.info { "my message" }
