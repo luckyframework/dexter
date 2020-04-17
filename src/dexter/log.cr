@@ -14,41 +14,28 @@ class Log
   }
 
   {% for method, severity in SEVERITY_MAP %}
-    # Logs a `String` message or key/value data using a `NamedTuple`
+    # Logs key/value data in the Log::Context under the 'local' leu
     #
     # ```crystal
-    # Log.{{ method.id }} { {path: "/comments", status: 200} }
-    # Log.{{ method.id }} { "My mesage" }
+    # Log.{{ method.id }} ->{ {path: "/comments", status: 200 }}
     # ```
     #
     # You can also pass an exception:
     #
     # ```crystal
-    # Log.{{ method.id }}(exception) { "My mesage" }
+    # Log.{{ method.id }}(exception) ->{ { query: "SELECT *" } }
     # ```
-    def {{method.id}}(*, exception : Exception? = nil)
+    def {{method.id}}(*, exception : Exception? = nil, proc : Proc(Nil, T)) forall T
       return unless backend = @backend
       severity = Severity.new({{severity}})
       return unless level <= severity
 
-      block_result = yield
+      proc_result = proc.call
 
-      if block_result.is_a?(NamedTuple)
-        Log.with_context do
-          Log.context.set(block_result)
-          # Print empty message since the data is assigned to the context
-          write_entry_to_io(backend, severity, message: "", exception: exception)
-        end
-      else
-        # This falls back to the regular Crystal log behavior and
-        # assigns the message String
-        write_entry_to_io(backend, severity, message: block_result.to_s, exception: exception)
+      Log.with_context do
+        Log.context.set(local: proc_result)
+        {{method.id}}(exception: exception) { "" }
       end
     end
   {% end %}
-
-  private def write_entry_to_io(backend : Backend, severity : Severity, message : String, exception : Exception?) : Nil
-    entry = Entry.new @source, severity, message, exception
-    backend.write entry
-  end
 end

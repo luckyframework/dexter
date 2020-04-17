@@ -2,12 +2,12 @@ require "./spec_helper"
 
 describe Log do
   {% for name, _severity in ::Log::SEVERITY_MAP %}
-    it "logs NamedTuple data for '{{ name.id.downcase }}'" do
+    it "logs NamedTuple data for '{{ name.id.downcase }}' to message data" do
       entry = log_stubbed do |log|
         log.{{ name.id.downcase }} { {foo: "bar" }}
       end
 
-      entry.context.as_h.transform_values(&.as_s).should eq({"foo" => "bar"})
+      entry.message_data.as_h.transform_values(&.as_s).should eq({"foo" => "bar"})
       entry.message.should eq("")
     end
   {% end %}
