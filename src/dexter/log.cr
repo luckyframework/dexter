@@ -27,13 +27,13 @@ class Log
       # Logs key/value data in the Log::Context under the 'local' key
       #
       # ```crystal
-      # Log.dexter.{{ method.id }} ->{ {path: "/comments", status: 200 }}
+      # Log.dexter.{{ method.id }} { {path: "/comments", status: 200 }}
       # ```
       #
       # You can also pass an exception:
       #
       # ```crystal
-      # Log.dexter.{{ method.id }}(exception) ->{ { query: "SELECT *" } }
+      # Log.dexter.{{ method.id }}(exception) { { query: "SELECT *" } }
       # ```
       def {{method.id}}(*, exception : Exception? = nil, &block : -> NamedTuple | Hash)
         return unless backend = log.backend
