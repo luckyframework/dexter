@@ -35,7 +35,7 @@ class Log
       # ```crystal
       # Log.dexter.{{ method.id }}(exception) ->{ { query: "SELECT *" } }
       # ```
-      def {{method.id}}(*, exception : Exception? = nil)
+      def {{method.id}}(*, exception : Exception? = nil, &block : -> NamedTuple | Hash)
         return unless backend = log.backend
         severity = Severity.new({{severity}})
         return unless log.level <= severity
