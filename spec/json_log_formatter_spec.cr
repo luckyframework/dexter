@@ -24,6 +24,17 @@ describe Dexter::JSONLogFormatter do
     log["other"].as_h.should eq({"arr" => [1]})
   end
 
+  it "prints local context data first" do
+    io = IO::Memory.new
+    entry = build_entry({global: true, local: {foo: "bar"}}, source: "json-test", severity: :debug)
+
+    format(entry, io)
+
+    io.to_s.chomp.should eq(
+      {severity: "Debug", source: "json-test", timestamp: timestamp, foo: "bar", global: true}.to_json
+    )
+  end
+
   it "merge the message if present" do
     io = IO::Memory.new
     entry = build_entry({my_data: "is great!"}, message: "my message")
