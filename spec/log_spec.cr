@@ -80,6 +80,74 @@ describe Log do
       original_io.to_s.should contain("original formatter")
     end
   end
+
+  describe "#configure" do
+    describe "configuring just the severity" do
+      it "uses the logs existing backend if present" do
+        log = Log.for("severity")
+        backend = Log::MemoryBackend.new
+        log.level = :debug
+        log.backend = backend
+
+        log.dexter.configure(:info)
+
+        log = log.reload
+        log.level.should eq(::Log::Severity::Info)
+        log.backend.should eq(backend)
+      end
+
+      it "uses Log::IOBackend if no backend is set" do
+        log = Log.for("severity")
+        log.level = :debug
+        log.backend = nil
+
+        log.dexter.configure(:info)
+
+        log = log.reload
+        log.level.should eq(::Log::Severity::Info)
+        log.backend.should be_a(Log::IOBackend)
+      end
+    end
+
+    it "allows configuring the severity and the backend" do
+      log = Log.for("severity")
+      backend = ::Log::IOBackend.new
+      log.level = :debug
+
+      log.dexter.configure(:info, backend)
+
+      log = log.reload
+      log.backend.should eq(backend)
+    end
+
+    it "allows configuring the top level source and *all* children" do
+      child_log = Log.for("severity")
+      backend = ::Log::IOBackend.new
+
+      ::Log.dexter.configure(:none, backend)
+
+      [::Log.for(""), child_log].each do |log|
+        log = log.reload
+        log.level.should eq(::Log::Severity::None)
+        log.backend.should eq(backend)
+      end
+    end
+
+    it "uses the configuration for child sources" do
+      different_source = ::Log.for("some_other_source")
+      parent_log = ::Log.for("parent")
+      child_log = ::Log.for("parent.child")
+      ::Log.dexter.configure(:none, Log::MemoryBackend.new)
+
+      parent_log.dexter.configure(:info)
+
+      # Different source remains unchanged
+      different_source.reload.level.should eq(Log::Severity::None)
+      # Parent and child are changed
+      parent_log.reload.level.should eq(Log::Severity::Info)
+      child_log.reload.level.should eq(Log::Severity::Info)
+    end
+  end
 end
 
 private class StubbedBackend < Log::Backend

@@ -8,6 +8,10 @@ class Log
     Dexter.new(self)
   end
 
+  def self.dexter : Dexter
+    Dexter.new(Log.for(""))
+  end
+
   struct Dexter
     SEVERITY_MAP = {
       debug:   Severity::Debug,
@@ -21,6 +25,56 @@ class Log
     getter log
 
     def initialize(@log : ::Log)
+    end
+
+    # Configure a Log and all child logs
+    #
+    # This is a type-safe and simpler alternative to using `Log.builder.bind`.
+    # Rather than pass a string `source` you can configure a log using
+    # its class.
+    #
+    # The backend can be left off and it will use the log's existing backend or
+    # a new `Log::IOBackend`
+    #
+    # It also sets all child logs to the same configuration since this is
+    # the most common way to configure logs. If you want to configure a log and
+    # none of its children it is best to set the `level` or `backend` directly:
+    #
+    # ```crystal
+    # MyShard::Log.level = :error
+    # MyShard::Log.backend = MyCustomBackend.new
+    # ```
+    #
+    # ## Examples:
+    #
+    # ```crystal
+    # # Configure all logs.
+    # # Similar to `Log.builder.bind "*"`
+    # Log.dexter.configure(:info, backend)
+    #
+    # # Configure Avram::Log and all child logs
+    # # Similar to `Log.builder.bind "avram.*"
+    # Avram::Log.dexter.configure(:warn)
+    #
+    # # Can further customize child Logs
+    # Avram::QueryLog.dexter.configure(:none)
+    # Avram::FailedQueryLog.dexter.configure(:info, SomeOtherBackend.new)
+    # ```
+    def configure(severity : Log::Severity, backend : Log::Backend) : Nil
+      ::Log.builder.bind(source_for_bind, severity, backend)
+    end
+
+    # :nodoc:
+    def configure(severity : Log::Severity) : Nil
+      ::Log.builder.bind(source_for_bind, severity, log.backend || ::Log::IOBackend.new)
+    end
+
+    private def source_for_bind : String
+      if log.source.empty?
+        "*"
+      else
+        "#{log.source}.*"
+      end
     end
 
     # Temporarily reconfigure a Log
@@ -64,7 +118,7 @@ class Log
     # ```
     #
     # You can use any combination of `io`, `level`, `formatter`. All are optional.
-    def temp_config(io : IO = IO::Memory.new, level : ::Log::Severity = Log::Severity::Debug, formatter : ::Log::Formatter? = nil)
+    def temp_config(io : IO = IO::Memory.new, level : ::Log::Severity = Log::Severity::Debug, formatter : ::Log::Formatter? = nil) : Nil
       io ||= IO::Memory.new
       log_class = ::Log.for(log.source)
       original_backend = log_class.backend
@@ -96,7 +150,7 @@ class Log
       # ```crystal
       # Log.dexter.{{ method.id }}(exception) { { query: "SELECT *" } }
       # ```
-      def {{method.id}}(*, exception : Exception? = nil, &block : -> NamedTuple | Hash)
+      def {{method.id}}(*, exception : Exception? = nil, &block : -> NamedTuple | Hash) : Nil
         return unless backend = log.backend
         severity = Severity.new({{severity}})
         return unless log.level <= severity
