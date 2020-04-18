@@ -2,39 +2,41 @@ require "./spec_helper"
 
 describe Log do
   {% for name, _severity in ::Log::SEVERITY_MAP %}
-    it "logs NamedTuple data for '{{ name.id.downcase }}' to message data" do
+    it "logs NamedTuple data for '{{ name.id.downcase }}' to 'local' context" do
       entry = log_stubbed do |log|
-        log.{{ name.id.downcase }} { {foo: "bar" }}
+        log.{{ name.id.downcase }} ->{ {foo: "bar" }}
       end
 
-      entry.message_data.as_h.transform_values(&.as_s).should eq({"foo" => "bar"})
+      entry.context["local"].as_h.transform_values(&.as_s).should eq({"foo" => "bar"})
+      entry.message.should eq("")
+    end
+
+    it "logs Hash data for '{{ name.id.downcase }}' to 'local' context" do
+      entry = log_stubbed do |log|
+        log.{{ name.id.downcase }} ->{ {"foo" => "bar" }}
+      end
+
+      entry.context["local"].as_h.transform_values(&.as_s).should eq({"foo" => "bar"})
       entry.message.should eq("")
     end
   {% end %}
 
-  it "merges existing context with the NamedTuple data" do
-    entry = Log.with_context do
-      Log.context.set(user: 1)
-      log_stubbed do |log|
-        log.info { {foo: "bar"} }
-      end
+  it "allows logging data with nil values" do
+    entry = log_stubbed do |log|
+      log.info ->{ {"foo" => nil} }
     end
 
-    entry.context.as_h.transform_values do |v|
-      v.as_s? || v.as_i
-    end.should eq({"user" => 1, "foo" => "bar"})
+    entry.context["local"]["foo"].should eq("")
     entry.message.should eq("")
   end
 
-  it "allows logging data with nil values" do
-  end
-
-  it "leaves message String as-is and does not add it to the context" do
+  it "allows passing an exception" do
+    ex = RuntimeError.new
     entry = log_stubbed do |log|
-      log.info { "my message" }
+      log.info ex, ->{ {"foo" => nil} }
     end
 
-    entry.message.should eq("my message")
+    entry.exception.should eq(ex)
   end
 end
 

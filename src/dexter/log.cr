@@ -25,7 +25,7 @@ class Log
     # ```crystal
     # Log.{{ method.id }}(exception) ->{ { query: "SELECT *" } }
     # ```
-    def {{method.id}}(*, exception : Exception? = nil, proc : Proc(Nil, T)) forall T
+    def {{method.id}}(exception : Exception?, proc : Proc)
       return unless backend = @backend
       severity = Severity.new({{severity}})
       return unless level <= severity
@@ -36,6 +36,10 @@ class Log
         Log.context.set(local: proc_result)
         {{method.id}}(exception: exception) { "" }
       end
+    end
+
+    def {{method.id}}(proc : Proc)
+      {{ method.id }}(exception: nil, proc: proc)
     end
   {% end %}
 end
