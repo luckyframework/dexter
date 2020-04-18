@@ -24,7 +24,7 @@ class Log
     end
 
     {% for method, severity in SEVERITY_MAP %}
-      # Logs key/value data in the Log::Context under the 'local' leu
+      # Logs key/value data in the Log::Context under the 'local' key
       #
       # ```crystal
       # Log.dexter.{{ method.id }} ->{ {path: "/comments", status: 200 }}
