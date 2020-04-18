@@ -1,10 +1,10 @@
 require "./spec_helper"
 
 describe Log do
-  {% for name, _severity in ::Log::SEVERITY_MAP %}
+  {% for name, _severity in Log::Dexter::SEVERITY_MAP %}
     it "logs NamedTuple data for '{{ name.id.downcase }}' to 'local' context" do
       entry = log_stubbed do |log|
-        log.{{ name.id.downcase }} ->{ {foo: "bar" }}
+        log.dexter.{{ name.id.downcase }} { {foo: "bar" }}
       end
 
       entry.context["local"].as_h.transform_values(&.as_s).should eq({"foo" => "bar"})
@@ -13,7 +13,7 @@ describe Log do
 
     it "logs Hash data for '{{ name.id.downcase }}' to 'local' context" do
       entry = log_stubbed do |log|
-        log.{{ name.id.downcase }} ->{ {"foo" => "bar" }}
+        log.dexter.{{ name.id.downcase }} { {"foo" => "bar" }}
       end
 
       entry.context["local"].as_h.transform_values(&.as_s).should eq({"foo" => "bar"})
@@ -23,7 +23,7 @@ describe Log do
 
   it "allows logging data with nil values" do
     entry = log_stubbed do |log|
-      log.info ->{ {"foo" => nil} }
+      log.dexter.info { {"foo" => nil} }
     end
 
     entry.context["local"]["foo"].should eq("")
@@ -33,7 +33,7 @@ describe Log do
   it "allows passing an exception" do
     ex = RuntimeError.new
     entry = log_stubbed do |log|
-      log.info ex, ->{ {"foo" => nil} }
+      log.dexter.info(exception: ex) { {"foo" => nil} }
     end
 
     entry.exception.should eq(ex)
