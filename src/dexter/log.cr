@@ -38,6 +38,7 @@ class Log
       end
     end
 
+    # :nodoc:
     def {{method.id}}(proc : Proc)
       {{ method.id }}(exception: nil, proc: proc)
     end

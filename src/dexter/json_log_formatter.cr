@@ -3,7 +3,15 @@ require "json"
 module Dexter
   struct JSONLogFormatter < BaseFormatter
     def call
-      data = default_data.merge(entry.context.as_h)
+      context_data = entry.context.as_h
+      local_data = context_data.delete("local").try(&.as_h)
+      data = default_data
+
+      if local_data
+        data = data.merge(local_data)
+      end
+
+      data = data.merge(context_data)
 
       exception_data.try do |exception_data_|
         data = data.merge(exception_data_)
@@ -11,17 +19,17 @@ module Dexter
 
       data
         .compact
-        .reject { |_k, v| v.nil? || v.to_s.try(&.empty?) }
         .to_json(io)
     end
 
     private def default_data
-      {
+      data = {
         "severity"  => entry.severity.to_s,
         "source"    => entry.source,
         "timestamp" => entry.timestamp,
-        "message"   => entry.message,
       }
+      data["message"] = entry.message unless entry.message.empty?
+      data
     end
 
     private def exception_data
