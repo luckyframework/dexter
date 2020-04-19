@@ -10,5 +10,7 @@ module Dexter
 
     def initialize(@entry : Log::Entry, @io : IO)
     end
+
+    abstract def call
   end
 end
