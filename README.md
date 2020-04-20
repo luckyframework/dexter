@@ -1,16 +1,12 @@
 # Dexter
 
-A library for logging data and formatting it however you need
+Extensions to Crystal's `Log` class.
 
-* 99% compatible with built-in Crystal logger ([see caveat](#compatibility-caveat)).
-* Adds additional methods for logging data instead of strings
-* Custom formatters to log data any way you want
-
-Included is a `JsonLogFormatter`, but you can create your own formatter to format
-and output the data however you want. For example,
-[Lucky](https://luckyframework.org) has a `PrettyLogFormatter` that formats data
-in a human readable format during development, and uses the `JsonLogFormatter`
-in production.
+* 100% compatible with built-in Crystal's [`Log`](https://crystal-lang.org/api/latest/Log.html)
+* Adds methods for easily logging key/value data
+* Built-in `Dexter::JSONLogFormatter` for formatting Logs as JSON
+* Helper class for making log formatting simpler and more flexible
+* Simpler configuration with helpful compile-time guarantees
 
 ## Installation
 
@@ -20,70 +16,93 @@ in production.
    dependencies:
      dexter:
        github: luckyframework/dexter
+       version: ~> 0.2
    ```
 
 2. Run `shards install`
 
-## Usage
+## Getting started example
 
 ```crystal
 require "dexter"
 
-logger = Dexter::Logger.new(
-  io: STDOUT,
-  level: Logger::Severity::INFO,
-  log_formatter: Dexter::Formatters::JsonLogFormatter.new
-)
+backend = Log::IOBackend.new
+backend.formatter = Dexter::JSONLogFormatter.proc
+# Equivalent to: Log.builder.bind "*", :info, backend
+Log.dexter.configure(:info, backend)
 
 # These examples use 'info' but you can use 'debug', 'warn', and 'error' as well.
 #
 # Logs timestamp, severity and {foo: "bar"} as JSON
-logger.info(foo: "bar")
+Log.dexter.info { {foo: "bar"} }
 
-# Compatible with built-in Crystal logger for logging string messages
+# You can pass an exception *and* key/value data
+Log.dexter.error(exception: my_exception) { {foo: "bar"} }
+
+# Fully compatible with built-in Crystal Log
 #
 # Logs timestamp, severity and {message: "My message"} as JSON
-logger.info("My message")
-
-# Or pass the severity in:
-logger.log(severity: Logger::Severity::DEBUG, foo: "bar")
+Log.info { "My message" }
 ```
 
-## Compatibility Caveat
+### Log configuration
 
-Dexter will work everywhere the built-in Crystal `Logger` works. The only
-caveat is that Dexter ignores the `formatter` used by `Logger` because Dexter
-uses its own formatter that is incompatible with Crystal's `Logger`.
+Use `{LogClass}.dexter.configure to configure `{LogClass}` and its child logs
 
-So what does this mean? **In practice, it is a non-issue**. If you are using
-Dexter it is because you want the Dexter formatting, not the Crystal formatter.
+Rather than pass a string `source` to `Log.builder.bind` you can configure a
+log using its class. This is a type-safe and simpler alternative to using
+`Log.builder.bind`.
 
-For example, in this code the formatter will not be used, and Dexter will print a warning:
+## Examples:
+
+> Note: the backend can be left off and it will use the `{LogClass}`'s
+> existing backend or a new `Log::IOBackend`
 
 ```crystal
-logger = Dexter::Logger.new(STDOUT)
+# Configure all logs.
+# Similar to `Log.builder.bind "*"`
+Log.dexter.configure(:info, backend)
 
-# This will print a warning message and the formatter will not be used
-#
-# Usually people do this on accident or because the app was using the default
-# Crystal Logger and is being upgraded to Dexter.
-logger.formatter = ::Logger::Formatter.new do |severity, datetime, progname, message, io|
-  "This will not ever run"
-end
+# Configure Avram::Log and all child logs
+# Similar to `Log.builder.bind "avram.*"
+Avram::Log.dexter.configure(:warn)
+
+# Can further customize child Logs
+Avram::QueryLog.dexter.configure(:none)
+Avram::FailedQueryLog.dexter.configure(:info, SomeOtherBackend.new)
 ```
 
-The fix is simple, use a Dexter formatter and set it with `log_formatter=` instead:
+`{LogClass}.dexter.configure` sets all child logs to the given
+level/backend . If you want to configure a Log and leave its children alone
+it is best to set the `level` or `backend` directly:
 
 ```crystal
-logger = Dexter::Logger.new(STDOUT)
-# Use 'log_formatter=' as documented in the README
-logger.log_formatter = Dexter::Formatters::JsonLogFormatter
+MyShard::Log.level = :error
+MyShard::Log.backend = MyCustomBackend.new
 ```
 
-> **Q:** Why is 'formatter=' defined in Dexter if Dexter ignores it?
+## Built-in formatters
 
-> **A** For Dexter to be usable in libraries that accept a Crystal `Logger`,
-> Dexter must have all the same methods as `Logger`.
+Dexter works with *any* `Log::Formatter`, but has a JSON formatter built-in
+that works especially well.
+
+* Logs exceptions in an easily parseable format
+```json
+{
+  "exception": { "class": "RuntimeError", "message": "Something broke", backtrace: ["line_of_code.cr:123"] }
+}
+```
+* Puts string message in a `message` key that comes first so you can find it easily
+* JSON works great for searching logs with many SaaS logging services
+
+
+## Create your own formatter
+
+Included is a `Dexter::JSONLogFormatter`, but you can create your own formatter to format
+and output log data however you want. For example,
+[Lucky](https://luckyframework.org) has a `PrettyLogFormatter` that formats data
+in a human readable format during development, and uses the `JSONLogFormatter`
+in production.
 
 ## Contributing
 
