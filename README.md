@@ -104,6 +104,8 @@ and output log data however you want. For example,
 in a human readable format during development, and uses the `JSONLogFormatter`
 in production.
 
+See an example formatter in [Dexter::JSONLogFormatter](https://github.com/luckyframework/dexter/blob/master/src/dexter/json_log_formatter.cr)
+
 ## Contributing
 
 1. Fork it (<https://github.com/luckyframework/dexter/fork>)
