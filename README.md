@@ -7,6 +7,10 @@ Extensions to Crystal's `Log` class.
 * Built-in `Dexter::JSONLogFormatter` for formatting Logs as JSON
 * Helper class for making log formatting simpler and more flexible
 * Simpler configuration with helpful compile-time guarantees
+* Helper methods for testing log output more easily
+
+And everything is optional so if you only want the JSON formatter you can just use that. 
+Dexter does not break the existing `Log` and is a *very* small library.
 
 ## Installation
 
@@ -45,7 +49,7 @@ Log.dexter.error(exception: my_exception) { {foo: "bar"} }
 Log.info { "My message" }
 ```
 
-### Log configuration
+## Type-safe Log configuration
 
 Use `{LogClass}.dexter.configure to configure `{LogClass}` and its child logs
 
@@ -80,6 +84,22 @@ it is best to set the `level` or `backend` directly:
 MyShard::Log.level = :error
 MyShard::Log.backend = MyCustomBackend.new
 ```
+
+## Test helpers
+
+This will temporarily configure the given log with a `Log::IOBackend`
+with an `IO::Memory` that is yielded. The log level is also
+temporarily set to `:debug` to log all messages
+
+```crystal
+MyShard::Log.dexter.temp_config do |log_io|
+  MyShard::Log.info { "log me" }
+  log_io.to_s.should contain("log me")
+end
+```
+
+There are more options for changing the level, passing your own IO, etc. See 
+the [documentation](https://github.com/luckyframework/dexter/blob/6144739a6d1a2d0f64d95a89086495c17cafe7eb/src/dexter/log.cr#L80) for more details
 
 ## Built-in formatters
 
