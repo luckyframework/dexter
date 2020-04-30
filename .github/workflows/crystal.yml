@@ -10,9 +10,13 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    
+    strategy:
+      matrix:
+        crystal: [0.34.0, latest, nightly]    
+    
     container:
-      image: crystallang/crystal
+      image: crystallang/crystal:{{ matrix.crystal }}
 
     steps:
     - uses: actions/checkout@v2
