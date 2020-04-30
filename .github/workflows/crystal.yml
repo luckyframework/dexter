@@ -13,10 +13,17 @@ jobs:
     
     strategy:
       matrix:
-        crystal: [0.34.0, latest, nightly]    
+        crystal: [0.34.0, latest, nightly]
+        # Dont'fail nightly builds: https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idcontinue-on-error
+        experimental: [false]
+        include:
+          - crystal: nightly
+            experimental: true
+
+    continue-on-error: ${{ matrix.experimental }}
     
     container:
-      image: crystallang/crystal:{{ matrix.crystal }}
+      image: crystallang/crystal:${{ matrix.crystal }}
 
     steps:
     - uses: actions/checkout@v2
