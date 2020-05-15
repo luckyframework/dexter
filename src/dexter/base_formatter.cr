@@ -3,9 +3,9 @@ module Dexter
     getter entry, io
 
     def self.proc
-      ->(entry : Log::Entry, io : IO) {
+      ::Log::Formatter.new do |entry, io|
         new(entry, io).call
-      }
+      end
     end
 
     def initialize(@entry : Log::Entry, @io : IO)
