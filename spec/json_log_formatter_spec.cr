@@ -79,13 +79,14 @@ private def format(entry : Log::Entry, io : IO)
   Dexter::JSONLogFormatter.proc.call(entry, io)
 end
 
-private def build_entry(context, message = "", source = "", severity : Log::Severity = Log::Severity::Info, exception : Exception? = nil)
+private def build_entry(context, message = "", source = "", severity : Log::Severity = Log::Severity::Info, data : Log::Metadata = Log::Metadata.empty, exception : Exception? = nil)
   Log.with_context do
     Log.context.set context
     entry = Log::Entry.new \
       source: source,
       message: message,
       severity: severity,
+      data: data,
       exception: exception
     entry.timestamp = timestamp
     entry
