@@ -1,4 +1,7 @@
+class Log; end
+
 require "json"
+require "log/json"
 
 module Dexter
   struct JSONLogFormatter < BaseFormatter
