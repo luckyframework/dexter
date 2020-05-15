@@ -17,7 +17,7 @@ class Log
       debug:   Severity::Debug,
       verbose: Severity::Verbose,
       info:    Severity::Info,
-      warn:    Severity::Warning,
+      warn:    Severity::Warn,
       error:   Severity::Error,
       fatal:   Severity::Fatal,
     }
