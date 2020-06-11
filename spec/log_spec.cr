@@ -8,7 +8,7 @@ describe Log do
           log.dexter.{{ name.id.downcase }} { {foo: "bar" }}
         end
 
-        entry.context["local"].as_h.transform_values(&.as_s).should eq({"foo" => "bar"})
+        entry.context[:local].as_h.transform_values(&.as_s).should eq({"foo" => "bar"})
         entry.message.should eq("")
       end
 
@@ -17,7 +17,7 @@ describe Log do
           log.dexter.{{ name.id.downcase }} { {"foo" => "bar" }}
         end
 
-        entry.context["local"].as_h.transform_values(&.as_s).should eq({"foo" => "bar"})
+        entry.context[:local].as_h.transform_values(&.as_s).should eq({"foo" => "bar"})
         entry.message.should eq("")
       end
     end
@@ -28,7 +28,7 @@ describe Log do
       log.dexter.info { {"foo" => nil} }
     end
 
-    entry.context["local"]["foo"].should eq("")
+    entry.context[:local]["foo"].should eq(nil)
     entry.message.should eq("")
   end
 

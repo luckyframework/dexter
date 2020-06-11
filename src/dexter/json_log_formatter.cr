@@ -1,9 +1,10 @@
 require "json"
+require "log/json"
 
 module Dexter
   struct JSONLogFormatter < BaseFormatter
     def call
-      context_data = entry.context.as_h
+      context_data = entry.context.to_h
       local_data = context_data.delete("local").try(&.as_h)
       data = default_data
 
