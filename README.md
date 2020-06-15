@@ -9,7 +9,7 @@ Extensions to Crystal's `Log` class.
 * Simpler configuration with helpful compile-time guarantees
 * Helper methods for testing log output more easily
 
-And everything is optional so if you only want the JSON formatter you can just use that. 
+And everything is optional so if you only want the JSON formatter you can just use that.
 Dexter does not break the existing `Log` and is a *very* small library.
 
 ## Installation
@@ -20,7 +20,7 @@ Dexter does not break the existing `Log` and is a *very* small library.
    dependencies:
      dexter:
        github: luckyframework/dexter
-       version: ~> 0.2
+       version: ~> 0.3
    ```
 
 2. Run `shards install`
@@ -98,7 +98,7 @@ MyShard::Log.dexter.temp_config do |log_io|
 end
 ```
 
-There are more options for changing the level, passing your own IO, etc. See 
+There are more options for changing the level, passing your own IO, etc. See
 the [documentation](https://github.com/luckyframework/dexter/blob/6144739a6d1a2d0f64d95a89086495c17cafe7eb/src/dexter/log.cr#L80) for more details
 
 ## Built-in formatters
