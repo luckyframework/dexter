@@ -26,7 +26,7 @@ describe Dexter::JSONLogFormatter do
 
   it "prints local context data first" do
     io = IO::Memory.new
-    entry = build_entry({global: true, local: {foo: "bar"}}, source: "json-test", severity: :debug)
+    entry = build_entry({foo: "bar", global: true}, source: "json-test", severity: :debug)
 
     format(entry, io)
 
@@ -76,16 +76,17 @@ describe Dexter::JSONLogFormatter do
 end
 
 private def format(entry : Log::Entry, io : IO)
-  Dexter::JSONLogFormatter.proc.call(entry, io)
+  Dexter::JSONLogFormatter.proc.format(entry, io)
 end
 
-private def build_entry(context, message = "", source = "", severity : Log::Severity = Log::Severity::Info, exception : Exception? = nil)
+private def build_entry(context, message = "", source = "", severity : Log::Severity = Log::Severity::Info, data : Log::Metadata = Log::Metadata.empty, exception : Exception? = nil)
   Log.with_context do
     Log.context.set context
     entry = Log::Entry.new \
       source: source,
       message: message,
       severity: severity,
+      data: data,
       exception: exception
     entry.timestamp = timestamp
     entry

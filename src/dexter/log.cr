@@ -1,5 +1,4 @@
 require "log"
-require "./log/context"
 require "./base_formatter"
 require "./json_log_formatter"
 
@@ -15,9 +14,9 @@ class Log
   struct Dexter
     SEVERITY_MAP = {
       debug:   Severity::Debug,
-      verbose: Severity::Verbose,
       info:    Severity::Info,
-      warn:    Severity::Warning,
+      notice:  Severity::Notice,
+      warn:    Severity::Warn,
       error:   Severity::Error,
       fatal:   Severity::Fatal,
     }
