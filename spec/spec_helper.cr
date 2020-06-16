@@ -1,5 +1,4 @@
 require "spec"
-require "log"
 require "../src/dexter"
 
 struct Log::Entry
