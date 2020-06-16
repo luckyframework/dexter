@@ -3,6 +3,26 @@ require "./base_formatter"
 require "./json_log_formatter"
 
 class Log
+  getter backend
+end
+
+class Log::Builder
+  def dexter_unbind(source : String)
+    @mutex.synchronize do
+      each_log do |log|
+        if Builder.matches(log.source, source)
+          @bindings = @bindings.reject do |b|
+            b.source == log.source
+          end
+          log.backend = nil
+          log.initial_level = :none
+        end
+      end
+    end
+  end
+end
+
+class Log
   def dexter : Dexter
     Dexter.new(self)
   end
@@ -13,12 +33,12 @@ class Log
 
   struct Dexter
     SEVERITY_MAP = {
-      debug:   Severity::Debug,
-      info:    Severity::Info,
-      notice:  Severity::Notice,
-      warn:    Severity::Warn,
-      error:   Severity::Error,
-      fatal:   Severity::Fatal,
+      debug:  Severity::Debug,
+      info:   Severity::Info,
+      notice: Severity::Notice,
+      warn:   Severity::Warn,
+      error:  Severity::Error,
+      fatal:  Severity::Fatal,
     }
 
     getter log
@@ -60,12 +80,14 @@ class Log
     # Avram::FailedQueryLog.dexter.configure(:info, SomeOtherBackend.new)
     # ```
     def configure(severity : Log::Severity, backend : Log::Backend) : Nil
+      ::Log.builder.dexter_unbind(source_for_bind)
       ::Log.builder.bind(source_for_bind, severity, backend)
     end
 
     # :nodoc:
     def configure(severity : Log::Severity) : Nil
-      ::Log.builder.bind(source_for_bind, severity, log.backend || ::Log::IOBackend.new)
+      backend = log.backend || ::Log::IOBackend.new
+      configure(severity, backend)
     end
 
     private def source_for_bind : String
