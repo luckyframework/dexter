@@ -140,12 +140,17 @@ class Log
     #
     # You can use any combination of `io`, `level`, `formatter`. All are optional.
     def temp_config(io : IO = IO::Memory.new, level : ::Log::Severity = Log::Severity::Debug, formatter : ::Log::Formatter? = nil) : Nil
+      # TODO Log.capture from "log/spec" module
+
       io ||= IO::Memory.new
       log_class = ::Log.for(log.source)
       original_backend = log_class.backend
       original_level = log_class.level
       begin
         backend = Log::IOBackend.new(io)
+        {% if compare_versions(Crystal::VERSION, "1.0.0-0") >= 0 %}
+          backend.dispatcher = Log::Dispatcher.for(:sync)
+        {% end %}
         if formatter
           backend.formatter = formatter
         end
