@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="crystal_docs.project_version" content="0.3.0">
+<meta name="crystal_docs.project_name" content="dexter">
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="dexter">
+  <title>Log - dexter 0.3.0</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          dexter
+        </a>
+      </h1>
+
+      <span class="project-version">
+        0.3.0
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent " data-id="dexter/Dexter" data-name="dexter">
+      <a href="Dexter.html">Dexter</a>
+      
+        <ul>
+  
+  <li class=" " data-id="dexter/Dexter/BaseFormatter" data-name="dexter::baseformatter">
+      <a href="Dexter/BaseFormatter.html">BaseFormatter</a>
+      
+    </li>
+  
+  <li class=" " data-id="dexter/Dexter/JSONLogFormatter" data-name="dexter::jsonlogformatter">
+      <a href="Dexter/JSONLogFormatter.html">JSONLogFormatter</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent open current" data-id="dexter/Log" data-name="log">
+      <a href="Log.html">Log</a>
+      
+        <ul>
+  
+  <li class=" " data-id="dexter/Log/Builder" data-name="log::builder">
+      <a href="Log/Builder.html">Builder</a>
+      
+    </li>
+  
+  <li class=" " data-id="dexter/Log/Dexter" data-name="log::dexter">
+      <a href="Log/Dexter.html">Dexter</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Log
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="Log.html">Log</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>The <code><a href="Log.html">Log</a></code> class provides a logging utility that you can use to output messages.</p>
+
+<p>The messages, or <code>Log::Entry</code> have associated levels, such as <code>Info</code> or <code>Error</code>
+that indicate their importance. See <code>Log::Severity</code>.</p>
+
+<p>To log a message <code>trace</code>, <code>debug</code>, <code>info</code>, <code>notice</code>, <code>warn</code>, <code>error</code>, and <code>fatal</code> methods
+can be used. They expect a block that will evaluate to the message of the entry.</p>
+
+<pre><code><span class="k">require</span> <span class="s">&quot;log&quot;</span>
+
+<span class="t">Log</span>.info { <span class="s">&quot;Program started&quot;</span> }</code></pre>
+
+<p>Data can be associated with a log entry via the <code>Log::Emitter</code> yielded in the logging methods.</p>
+
+<pre><code><span class="t">Log</span>.info <span class="o">&amp;</span>.emit(<span class="s">&quot;User logged in&quot;</span>, user_id: <span class="n">42</span>)</code></pre>
+
+<p>If you want to log an exception, you can indicate it in the <code>exception:</code> named argument.</p>
+
+<pre><code><span class="t">Log</span>.warn(exception: e) { <span class="s">&quot;Oh no!&quot;</span> }
+<span class="t">Log</span>.warn exception: e, <span class="o">&amp;</span>.emit(<span class="s">&quot;Oh no!&quot;</span>, user_id: <span class="n">42</span>)</code></pre>
+
+<p>The block is only evaluated if the current message is to be emitted to some <code>Log::Backend</code>.</p>
+
+<p>To add structured information to the message you can use the <code>Log::Context</code>.</p>
+
+<p>When creating log messages they belong to a <em>source</em>. If the top-level <code><a href="Log.html">Log</a></code> is used
+as in the above examples its source is the empty string.</p>
+
+<p>The source can be used to identify the module or part of the application that is logging.
+You can configure for each source a different level to filter the messages.</p>
+
+<p>A recommended pattern is to declare a <code><a href="Log.html">Log</a></code> constant in the namespace of your shard or module as follows:</p>
+
+<pre><code><span class="k">module</span> <span class="t">DB</span>
+  <span class="t">Log</span> <span class="o">=</span> <span class="t">::</span><span class="t">Log</span>.<span class="k">for</span>(<span class="s">&quot;db&quot;</span>) <span class="c"># =&gt; Log for db source</span>
+
+  <span class="k">def</span> <span class="m">do_something</span>
+    <span class="t">Log</span>.info { <span class="s">&quot;this is logged in db source&quot;</span> }
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="t">DB</span><span class="t">::</span><span class="t">Log</span>.info { <span class="s">&quot;this is also logged in db source&quot;</span> }
+<span class="t">Log</span>.<span class="k">for</span>(<span class="s">&quot;db&quot;</span>).info { <span class="s">&quot;this is also logged in db source&quot;</span> }
+<span class="t">Log</span>.info { <span class="s">&quot;this is logged in top-level source&quot;</span> }</code></pre>
+
+<p>That way, any <code>Log.info</code> call within the <code>DB</code> module will use the <code>db</code> source. And not the top-level <code><a href="Log.html">::Log</a>.info</code>.</p>
+
+<p>Sources can be nested. Continuing the last example, to declare a <code><a href="Log.html">Log</a></code> constant <code>db.pool</code> source you can do as follows:</p>
+
+<pre><code><span class="k">class</span> <span class="t">DB</span><span class="t">::</span><span class="t">Pool</span>
+  <span class="t">Log</span> <span class="o">=</span> <span class="t">DB</span><span class="t">::</span><span class="t">Log</span>.<span class="k">for</span>(<span class="s">&quot;pool&quot;</span>) <span class="c"># =&gt; Log for db.pool source</span>
+<span class="k">end</span></code></pre>
+
+<p>A <code><a href="Log.html">Log</a></code> will emit the messages to the <code>Log::Backend</code>s attached to it as long as
+the configured severity filter <code>level</code> permits it.</p>
+
+<p>Logs can also be created from a type directly. For the type <code>DB::Pool</code> the source <code>db.pool</code> will be used.
+For generic types as <code>Foo::Bar(Baz)</code> the source <code>foo.bar</code> will be used (i.e. without generic arguments).</p>
+
+<pre><code><span class="k">module</span> <span class="t">DB</span>
+  <span class="t">Log</span> <span class="o">=</span> <span class="t">::</span><span class="t">Log</span>.<span class="k">for</span>(<span class="k">self</span>) <span class="c"># =&gt; Log for db source</span>
+<span class="k">end</span></code></pre>
+
+<h3><a id="default-logging-configuration" class="anchor" href="#default-logging-configuration">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Default logging configuration</h3>
+
+<p>By default entries from all sources with <code>Info</code> and above severity will
+be logged to <code>STDOUT</code> using the <code>Log::IOBackend</code>.</p>
+
+<p>If you need to change the default level, backend or sources call <code>Log.setup</code> upon startup.</p>
+
+<pre><code><span class="t">Log</span>.setup(<span class="n">:debug</span>)                     <span class="c"># Log debug and above for all sources to STDOUT</span>
+<span class="t">Log</span>.setup(<span class="s">&quot;myapp.*, http.*&quot;</span>, <span class="n">:notice</span>) <span class="c"># Log notice and above for myapp.* and http.* sources only, and log nothing for any other source.</span>
+backend_with_formatter <span class="o">=</span> <span class="t">Log</span><span class="t">::</span><span class="t">IOBackend</span>.<span class="k">new</span>(formatter: custom_formatter)
+<span class="t">Log</span>.setup(<span class="n">:debug</span>, backend_with_formatter) <span class="c"># Log debug and above for all sources to using a custom backend</span></code></pre>
+
+<h3><a id="configure-logging-explicitly-in-the-code" class="anchor" href="#configure-logging-explicitly-in-the-code">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Configure logging explicitly in the code</h3>
+
+<p>Use <code>Log.setup</code> methods to indicate which sources should go to which backends.</p>
+
+<p>You can indicate actual sources or patterns.</p>
+
+<ul><li>the empty string matches only the top-level source</li><li><code>*</code> matches all the sources</li><li><code>foo.bar.*</code> matches <code>foo.bar</code> and every nested source</li><li><code>foo.bar</code> matches <code>foo.bar</code>, but not its nested sources</li><li>Any comma separated combination of the above</li></ul>
+
+<p>The following configuration will setup for all sources to emit
+warnings (or higher) to <code>STDOUT</code>, allow any of the <code>db.*</code> and
+nested source to emit debug (or higher), and to also emit for all
+sources errors (or higher) to an elasticsearch backend.</p>
+
+<pre><code><span class="t">Log</span>.setup <span class="o">|</span>c<span class="o">|</span>
+  backend <span class="o">=</span> <span class="t">Log</span><span class="t">::</span><span class="t">IOBackend</span>.<span class="k">new</span>
+
+  c.bind <span class="s">&quot;*&quot;</span>, <span class="n">:warn</span>, backend
+  c.bind <span class="s">&quot;db.*&quot;</span>, <span class="n">:debug</span>, backend
+  c.bind <span class="s">&quot;*&quot;</span>, <span class="n">:error</span>, <span class="t">ElasticSearchBackend</span>.<span class="k">new</span>(<span class="s">&quot;http://localhost:9200&quot;</span>)
+<span class="k">end</span></code></pre>
+
+<h3><a id="configure-logging-from-environment-variables" class="anchor" href="#configure-logging-from-environment-variables">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Configure logging from environment variables</h3>
+
+<p>Include the following line to allow configuration from environment variables.</p>
+
+<pre><code><span class="t">Log</span>.setup_from_env</code></pre>
+
+<p>The environment variable <code>LOG_LEVEL</code> is used to indicate which severity level to emit.
+By default entries from all sources with <code>Info</code> and above severity will
+be logged to <code>STDOUT</code> using the <code>Log::IOBackend</code>.</p>
+
+<p>To change the level and sources change the environment variable value:</p>
+
+<pre><code class="language-console">$ LOG_LEVEL=DEBUG ./bin/app</code></pre>
+
+<p>You can tweak the default values (used when <code>LOG_LEVEL</code> variable is not defined):</p>
+
+<pre><code><span class="t">Log</span>.setup_from_env(default_level: <span class="n">:error</span>)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+
+
+
+
+
+
+
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#dexter:Dexter-class-method" class="signature"><strong>.dexter</strong> : Dexter</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#backend:Log::Backend?-instance-method" class="signature"><strong>#backend</strong> : Log::Backend?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#dexter:Dexter-instance-method" class="signature"><strong>#dexter</strong> : Dexter</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+
+
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="dexter:Dexter-class-method">
+      <div class="signature">
+        
+        def self.<strong>dexter</strong> : <a href="Log/Dexter.html">Dexter</a>
+
+        <a class="method-permalink" href="#dexter:Dexter-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="backend:Log::Backend?-instance-method">
+      <div class="signature">
+        
+        def <strong>backend</strong> : Log::Backend?
+
+        <a class="method-permalink" href="#backend:Log::Backend?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="dexter:Dexter-instance-method">
+      <div class="signature">
+        
+        def <strong>dexter</strong> : <a href="Log/Dexter.html">Dexter</a>
+
+        <a class="method-permalink" href="#dexter:Dexter-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

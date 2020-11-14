@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="crystal_docs.project_version" content="0.3.0">
+<meta name="crystal_docs.project_name" content="dexter">
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="dexter">
+  <title>Log::Dexter - dexter 0.3.0</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          dexter
+        </a>
+      </h1>
+
+      <span class="project-version">
+        0.3.0
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent " data-id="dexter/Dexter" data-name="dexter">
+      <a href="../Dexter.html">Dexter</a>
+      
+        <ul>
+  
+  <li class=" " data-id="dexter/Dexter/BaseFormatter" data-name="dexter::baseformatter">
+      <a href="../Dexter/BaseFormatter.html">BaseFormatter</a>
+      
+    </li>
+  
+  <li class=" " data-id="dexter/Dexter/JSONLogFormatter" data-name="dexter::jsonlogformatter">
+      <a href="../Dexter/JSONLogFormatter.html">JSONLogFormatter</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent open current" data-id="dexter/Log" data-name="log">
+      <a href="../Log.html">Log</a>
+      
+        <ul>
+  
+  <li class=" " data-id="dexter/Log/Builder" data-name="log::builder">
+      <a href="../Log/Builder.html">Builder</a>
+      
+    </li>
+  
+  <li class=" current" data-id="dexter/Log/Dexter" data-name="log::dexter">
+      <a href="../Log/Dexter.html">Dexter</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">struct</span> Log::Dexter
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Log/Dexter.html">Log::Dexter</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+
+
+
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="SEVERITY_MAP">
+        <strong>SEVERITY_MAP</strong> = <code>{debug: <span class="t">Severity</span><span class="t">::</span><span class="t">Debug</span>, info: <span class="t">Severity</span><span class="t">::</span><span class="t">Info</span>, notice: <span class="t">Severity</span><span class="t">::</span><span class="t">Notice</span>, warn: <span class="t">Severity</span><span class="t">::</span><span class="t">Warn</span>, error: <span class="t">Severity</span><span class="t">::</span><span class="t">Error</span>, fatal: <span class="t">Severity</span><span class="t">::</span><span class="t">Fatal</span>}</code>
+      </dt>
+      
+    
+  </dl>
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(log:Log)-class-method" class="signature"><strong>.new</strong>(log : Log)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#configure(severity:Log::Severity,backend:Log::Backend):Nil-instance-method" class="signature"><strong>#configure</strong>(severity : Log::Severity, backend : Log::Backend) : Nil</a>
+        
+          <div class="summary"><p>Configure a Log and all child logs</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#debug(*,exception:Exception?=nil,&block:-%3ENamedTuple%7CHash):Nil-instance-method" class="signature"><strong>#debug</strong>(*, exception : Exception? = <span class="n">nil</span>, &block :  -> NamedTuple | Hash) : Nil</a>
+        
+          <div class="summary"><p>Logs key/value data in the Log::Context under the 'local' key</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#error(*,exception:Exception?=nil,&block:-%3ENamedTuple%7CHash):Nil-instance-method" class="signature"><strong>#error</strong>(*, exception : Exception? = <span class="n">nil</span>, &block :  -> NamedTuple | Hash) : Nil</a>
+        
+          <div class="summary"><p>Logs key/value data in the Log::Context under the 'local' key</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#fatal(*,exception:Exception?=nil,&block:-%3ENamedTuple%7CHash):Nil-instance-method" class="signature"><strong>#fatal</strong>(*, exception : Exception? = <span class="n">nil</span>, &block :  -> NamedTuple | Hash) : Nil</a>
+        
+          <div class="summary"><p>Logs key/value data in the Log::Context under the 'local' key</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#info(*,exception:Exception?=nil,&block:-%3ENamedTuple%7CHash):Nil-instance-method" class="signature"><strong>#info</strong>(*, exception : Exception? = <span class="n">nil</span>, &block :  -> NamedTuple | Hash) : Nil</a>
+        
+          <div class="summary"><p>Logs key/value data in the Log::Context under the 'local' key</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#log:Log-instance-method" class="signature"><strong>#log</strong> : Log</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#notice(*,exception:Exception?=nil,&block:-%3ENamedTuple%7CHash):Nil-instance-method" class="signature"><strong>#notice</strong>(*, exception : Exception? = <span class="n">nil</span>, &block :  -> NamedTuple | Hash) : Nil</a>
+        
+          <div class="summary"><p>Logs key/value data in the Log::Context under the 'local' key</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#temp_config(io:IO=IO::Memory.new,level:Log::Severity=Log::Severity::Debug,formatter:Log::Formatter?=nil,&):Nil-instance-method" class="signature"><strong>#temp_config</strong>(io : IO = <span class="t">IO</span><span class="t">::</span><span class="t">Memory</span>.<span class="k">new</span>, level : Log::Severity = <span class="t">Log</span><span class="t">::</span><span class="t">Severity</span><span class="t">::</span><span class="t">Debug</span>, formatter : Log::Formatter? = <span class="n">nil</span>, &) : Nil</a>
+        
+          <div class="summary"><p>Temporarily reconfigure a Log</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#warn(*,exception:Exception?=nil,&block:-%3ENamedTuple%7CHash):Nil-instance-method" class="signature"><strong>#warn</strong>(*, exception : Exception? = <span class="n">nil</span>, &block :  -> NamedTuple | Hash) : Nil</a>
+        
+          <div class="summary"><p>Logs key/value data in the Log::Context under the 'local' key</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(log:Log)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(log : <a href="../Log.html">Log</a>)
+
+        <a class="method-permalink" href="#new(log:Log)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="configure(severity:Log::Severity,backend:Log::Backend):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>configure</strong>(severity : Log::Severity, backend : Log::Backend) : Nil
+
+        <a class="method-permalink" href="#configure(severity:Log::Severity,backend:Log::Backend):Nil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Configure a Log and all child logs</p>
+
+<p>This is a type-safe and simpler alternative to using <code>Log.builder.bind</code>.
+Rather than pass a string <code>source</code> you can configure a log using
+its class.</p>
+
+<p>The backend can be left off and it will use the log's existing backend or
+a new <code>Log::IOBackend</code></p>
+
+<p>It also sets all child logs to the same configuration since this is
+the most common way to configure logs. If you want to configure a log and
+none of its children it is best to set the <code>level</code> or <code>backend</code> directly:</p>
+
+<pre><code class="language-crystal"><span class="t">MyShard</span><span class="t">::</span><span class="t">Log</span>.level <span class="o">=</span> <span class="n">:error</span>
+<span class="t">MyShard</span><span class="t">::</span><span class="t">Log</span>.backend <span class="o">=</span> <span class="t">MyCustomBackend</span>.<span class="k">new</span></code></pre>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples:</h2>
+
+<pre><code class="language-crystal"><span class="c"># Configure all logs.</span>
+<span class="c"># Similar to `Log.builder.bind &quot;*&quot;`</span>
+<span class="t">Log</span>.dexter.configure(<span class="n">:info</span>, backend)
+
+<span class="c"># Configure Avram::Log and all child logs</span>
+<span class="c"># Similar to `Log.builder.bind &quot;avram.*&quot;</span>
+<span class="t">Avram</span><span class="t">::</span><span class="t">Log</span>.dexter.configure(<span class="n">:warn</span>)
+
+<span class="c"># Can further customize child Logs</span>
+<span class="t">Avram</span><span class="t">::</span><span class="t">QueryLog</span>.dexter.configure(<span class="n">:none</span>)
+<span class="t">Avram</span><span class="t">::</span><span class="t">FailedQueryLog</span>.dexter.configure(<span class="n">:info</span>, <span class="t">SomeOtherBackend</span>.<span class="k">new</span>)</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="debug(*,exception:Exception?=nil,&block:->NamedTuple|Hash):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>debug</strong>(*, exception : Exception? = <span class="n">nil</span>, &block :  -> NamedTuple | Hash) : Nil
+
+        <a class="method-permalink" href="#debug(*,exception:Exception?=nil,&block:-%3ENamedTuple%7CHash):Nil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Logs key/value data in the Log::Context under the 'local' key</p>
+
+<pre><code class="language-crystal"><span class="t">Log</span>.dexter.debug { {path: <span class="s">&quot;/comments&quot;</span>, status: <span class="n">200</span> }}</code></pre>
+
+<p>You can also pass an exception:</p>
+
+<pre><code class="language-crystal"><span class="t">Log</span>.dexter.debug(exception) { { query: <span class="s">&quot;SELECT *&quot;</span> } }</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="error(*,exception:Exception?=nil,&block:->NamedTuple|Hash):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>error</strong>(*, exception : Exception? = <span class="n">nil</span>, &block :  -> NamedTuple | Hash) : Nil
+
+        <a class="method-permalink" href="#error(*,exception:Exception?=nil,&block:-%3ENamedTuple%7CHash):Nil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Logs key/value data in the Log::Context under the 'local' key</p>
+
+<pre><code class="language-crystal"><span class="t">Log</span>.dexter.error { {path: <span class="s">&quot;/comments&quot;</span>, status: <span class="n">200</span> }}</code></pre>
+
+<p>You can also pass an exception:</p>
+
+<pre><code class="language-crystal"><span class="t">Log</span>.dexter.error(exception) { { query: <span class="s">&quot;SELECT *&quot;</span> } }</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="fatal(*,exception:Exception?=nil,&block:->NamedTuple|Hash):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>fatal</strong>(*, exception : Exception? = <span class="n">nil</span>, &block :  -> NamedTuple | Hash) : Nil
+
+        <a class="method-permalink" href="#fatal(*,exception:Exception?=nil,&block:-%3ENamedTuple%7CHash):Nil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Logs key/value data in the Log::Context under the 'local' key</p>
+
+<pre><code class="language-crystal"><span class="t">Log</span>.dexter.fatal { {path: <span class="s">&quot;/comments&quot;</span>, status: <span class="n">200</span> }}</code></pre>
+
+<p>You can also pass an exception:</p>
+
+<pre><code class="language-crystal"><span class="t">Log</span>.dexter.fatal(exception) { { query: <span class="s">&quot;SELECT *&quot;</span> } }</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="info(*,exception:Exception?=nil,&block:->NamedTuple|Hash):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>info</strong>(*, exception : Exception? = <span class="n">nil</span>, &block :  -> NamedTuple | Hash) : Nil
+
+        <a class="method-permalink" href="#info(*,exception:Exception?=nil,&block:-%3ENamedTuple%7CHash):Nil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Logs key/value data in the Log::Context under the 'local' key</p>
+
+<pre><code class="language-crystal"><span class="t">Log</span>.dexter.info { {path: <span class="s">&quot;/comments&quot;</span>, status: <span class="n">200</span> }}</code></pre>
+
+<p>You can also pass an exception:</p>
+
+<pre><code class="language-crystal"><span class="t">Log</span>.dexter.info(exception) { { query: <span class="s">&quot;SELECT *&quot;</span> } }</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="log:Log-instance-method">
+      <div class="signature">
+        
+        def <strong>log</strong> : <a href="../Log.html">Log</a>
+
+        <a class="method-permalink" href="#log:Log-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="notice(*,exception:Exception?=nil,&block:->NamedTuple|Hash):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>notice</strong>(*, exception : Exception? = <span class="n">nil</span>, &block :  -> NamedTuple | Hash) : Nil
+
+        <a class="method-permalink" href="#notice(*,exception:Exception?=nil,&block:-%3ENamedTuple%7CHash):Nil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Logs key/value data in the Log::Context under the 'local' key</p>
+
+<pre><code class="language-crystal"><span class="t">Log</span>.dexter.notice { {path: <span class="s">&quot;/comments&quot;</span>, status: <span class="n">200</span> }}</code></pre>
+
+<p>You can also pass an exception:</p>
+
+<pre><code class="language-crystal"><span class="t">Log</span>.dexter.notice(exception) { { query: <span class="s">&quot;SELECT *&quot;</span> } }</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="temp_config(io:IO=IO::Memory.new,level:Log::Severity=Log::Severity::Debug,formatter:Log::Formatter?=nil,&):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>temp_config</strong>(io : IO = <span class="t">IO</span><span class="t">::</span><span class="t">Memory</span>.<span class="k">new</span>, level : Log::Severity = <span class="t">Log</span><span class="t">::</span><span class="t">Severity</span><span class="t">::</span><span class="t">Debug</span>, formatter : Log::Formatter? = <span class="n">nil</span>, &) : Nil
+
+        <a class="method-permalink" href="#temp_config(io:IO=IO::Memory.new,level:Log::Severity=Log::Severity::Debug,formatter:Log::Formatter?=nil,&):Nil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Temporarily reconfigure a Log</p>
+
+<p>This is mostly helpful when running tests for your log messages. This can
+make sure you are logging what you expect to log.</p>
+
+<p>If you leave off args the method will yield an <code>IO::Memory</code> and set the
+level to <code>Debug</code> so it logs all messages.</p>
+
+<p>There are also options to configure the <code>IO</code>, <code>Log::Severity</code>, or
+<code>Log::Formatter</code> used.</p>
+
+<p>Once the block ends or raises an exception the Log's configuration will
+be reverted to its original state.</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+
+<pre><code class="language-crystal"><span class="t">MyShard</span><span class="t">::</span><span class="t">Log</span>.dexter.temp_config <span class="k">do</span> <span class="o">|</span>log_io<span class="o">|</span>
+  <span class="t">MyShard</span><span class="t">::</span><span class="t">Log</span>.info { <span class="s">&quot;log me&quot;</span> }
+  log_io.to_s.should contain(<span class="s">&quot;log me&quot;</span>)
+<span class="k">end</span>
+
+my_own_io <span class="o">=</span> <span class="t">IO</span><span class="t">::</span><span class="t">Memory</span>.<span class="k">new</span>
+<span class="t">MyShard</span><span class="t">::</span><span class="t">Log</span>.dexter.temp_config(my_own_io) <span class="k">do</span>
+  <span class="t">MyShard</span><span class="t">::</span><span class="t">Log</span>.info { <span class="s">&quot;log me&quot;</span> }
+  my_own_io.to_s.should contain(<span class="s">&quot;log me&quot;</span>)
+<span class="k">end</span>
+
+formatter <span class="o">=</span> <span class="t">::</span><span class="t">Log</span><span class="t">::</span><span class="t">Formatter</span>.<span class="k">new</span> <span class="k">do</span> <span class="o">|</span>entry, io<span class="o">|</span>
+  io <span class="o">&lt;&lt;</span> entry.severity
+<span class="k">end</span>
+
+<span class="t">MyShard</span><span class="t">::</span><span class="t">Log</span>.dexter.temp_config(level: <span class="n">:info</span>, formatter: formatter) <span class="k">do</span> <span class="o">|</span>log_io<span class="o">|</span>
+  <span class="t">MyShard</span><span class="t">::</span><span class="t">Log</span>.info { <span class="s">&quot;log me&quot;</span> }
+  <span class="c"># This is a useless test, but is here to show what can be done</span>
+  <span class="c"># with the formatter option. In this case, just log severity:</span>
+  my_own_io.to_s.chomp.should eq(<span class="s">&quot;Info&quot;</span>)
+<span class="k">end</span></code></pre>
+
+<p>You can use any combination of <code>io</code>, <code>level</code>, <code>formatter</code>. All are optional.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="warn(*,exception:Exception?=nil,&block:->NamedTuple|Hash):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>warn</strong>(*, exception : Exception? = <span class="n">nil</span>, &block :  -> NamedTuple | Hash) : Nil
+
+        <a class="method-permalink" href="#warn(*,exception:Exception?=nil,&block:-%3ENamedTuple%7CHash):Nil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Logs key/value data in the Log::Context under the 'local' key</p>
+
+<pre><code class="language-crystal"><span class="t">Log</span>.dexter.warn { {path: <span class="s">&quot;/comments&quot;</span>, status: <span class="n">200</span> }}</code></pre>
+
+<p>You can also pass an exception:</p>
+
+<pre><code class="language-crystal"><span class="t">Log</span>.dexter.warn(exception) { { query: <span class="s">&quot;SELECT *&quot;</span> } }</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>
