@@ -148,7 +148,7 @@ class Log
       original_level = log_class.level
       begin
         backend = Log::IOBackend.new(io)
-        {% if compare_versions(Crystal::VERSION, "1.0.0-0") >= 0 %}
+        {% if compare_versions(Crystal::VERSION, "0.36.0-0") >= 0 %}
           backend.dispatcher = Log::Dispatcher.for(:sync)
         {% end %}
         if formatter
