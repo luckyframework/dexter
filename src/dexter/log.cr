@@ -142,7 +142,6 @@ class Log
     def temp_config(io : IO = IO::Memory.new, level : ::Log::Severity = Log::Severity::Debug, formatter : ::Log::Formatter? = nil) : Nil
       # TODO Log.capture from "log/spec" module
 
-      io ||= IO::Memory.new
       log_class = ::Log.for(log.source)
       original_backend = log_class.backend
       original_level = log_class.level

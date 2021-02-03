@@ -150,16 +150,9 @@ describe Log do
   end
 end
 
-private class StubbedBackend < Log::Backend
-  getter! entry : Log::Entry?
-
-  def write(@entry) : Log::Entry
-  end
-end
-
 private def log_stubbed : Log::Entry
-  backend = StubbedBackend.new
+  backend = Log::MemoryBackend.new
   log = Log.new("dexter.text", backend: backend, level: :debug)
   yield log
-  backend.entry
+  backend.entries.first
 end
