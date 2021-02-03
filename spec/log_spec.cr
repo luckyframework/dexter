@@ -62,6 +62,9 @@ describe Log do
       formatter = ::Log::Formatter.new { |_entry, io| io << "original formatter" }
       backend = ::Log::IOBackend.new(original_io)
       backend.formatter = formatter
+      {% if compare_versions(Crystal::VERSION, "0.36.0-0") >= 0 %}
+        backend.dispatcher = Log::Dispatcher.for(:sync)
+      {% end %}
       log = Log.for("temp_config_with_options")
       ::Log.builder.bind(log.source, :none, backend)
       log.level.should eq(::Log::Severity::None)
