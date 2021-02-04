@@ -3,28 +3,28 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.34.0">
-<meta name="crystal_docs.project_version" content="0.3.0">
+<meta name="generator" content="Crystal Docs 0.35.1">
+<meta name="crystal_docs.project_version" content="0.3.2">
 <meta name="crystal_docs.project_name" content="dexter">
+
 
 
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/doc.js"></script>
 
-<svg class="hidden">
-  <symbol id="octicon-link" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
-  </symbol>
-</svg>
-
-  <meta id="repository-name" content="dexter">
-  <title>Log - dexter 0.3.0</title>
+  <meta name="repository-name" content="dexter">
+  <title>Log - dexter 0.3.2</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "";
   </script>
 </head>
 <body>
 
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
 <div class="sidebar">
   <div class="sidebar-header">
     <div class="search-box">
@@ -39,12 +39,12 @@
       </h1>
 
       <span class="project-version">
-        0.3.0
+        0.3.2
       </span>
     </div>
   </div>
 
-  <div class="search-results" class="hidden">
+  <div class="search-results hidden">
     <ul class="search-list"></ul>
   </div>
 
@@ -127,17 +127,17 @@ that indicate their importance. See <code>Log::Severity</code>.</p>
 <p>To log a message <code>trace</code>, <code>debug</code>, <code>info</code>, <code>notice</code>, <code>warn</code>, <code>error</code>, and <code>fatal</code> methods
 can be used. They expect a block that will evaluate to the message of the entry.</p>
 
-<pre><code><span class="k">require</span> <span class="s">&quot;log&quot;</span>
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;log&quot;</span>
 
 <span class="t">Log</span>.info { <span class="s">&quot;Program started&quot;</span> }</code></pre>
 
 <p>Data can be associated with a log entry via the <code>Log::Emitter</code> yielded in the logging methods.</p>
 
-<pre><code><span class="t">Log</span>.info <span class="o">&amp;</span>.emit(<span class="s">&quot;User logged in&quot;</span>, user_id: <span class="n">42</span>)</code></pre>
+<pre><code class="language-crystal"><span class="t">Log</span>.info <span class="o">&amp;</span>.emit(<span class="s">&quot;User logged in&quot;</span>, user_id: <span class="n">42</span>)</code></pre>
 
 <p>If you want to log an exception, you can indicate it in the <code>exception:</code> named argument.</p>
 
-<pre><code><span class="t">Log</span>.warn(exception: e) { <span class="s">&quot;Oh no!&quot;</span> }
+<pre><code class="language-crystal"><span class="t">Log</span>.warn(exception: e) { <span class="s">&quot;Oh no!&quot;</span> }
 <span class="t">Log</span>.warn exception: e, <span class="o">&amp;</span>.emit(<span class="s">&quot;Oh no!&quot;</span>, user_id: <span class="n">42</span>)</code></pre>
 
 <p>The block is only evaluated if the current message is to be emitted to some <code>Log::Backend</code>.</p>
@@ -152,7 +152,7 @@ You can configure for each source a different level to filter the messages.</p>
 
 <p>A recommended pattern is to declare a <code><a href="Log.html">Log</a></code> constant in the namespace of your shard or module as follows:</p>
 
-<pre><code><span class="k">module</span> <span class="t">DB</span>
+<pre><code class="language-crystal"><span class="k">module</span> <span class="t">DB</span>
   <span class="t">Log</span> <span class="o">=</span> <span class="t">::</span><span class="t">Log</span>.<span class="k">for</span>(<span class="s">&quot;db&quot;</span>) <span class="c"># =&gt; Log for db source</span>
 
   <span class="k">def</span> <span class="m">do_something</span>
@@ -164,11 +164,11 @@ You can configure for each source a different level to filter the messages.</p>
 <span class="t">Log</span>.<span class="k">for</span>(<span class="s">&quot;db&quot;</span>).info { <span class="s">&quot;this is also logged in db source&quot;</span> }
 <span class="t">Log</span>.info { <span class="s">&quot;this is logged in top-level source&quot;</span> }</code></pre>
 
-<p>That way, any <code>Log.info</code> call within the <code>DB</code> module will use the <code>db</code> source. And not the top-level <code><a href="Log.html">::Log</a>.info</code>.</p>
+<p>That way, any <code>Log.info</code> call within the <code>DB</code> module will use the <code>db</code> source. And not the top-level <code>::Log.info</code>.</p>
 
 <p>Sources can be nested. Continuing the last example, to declare a <code><a href="Log.html">Log</a></code> constant <code>db.pool</code> source you can do as follows:</p>
 
-<pre><code><span class="k">class</span> <span class="t">DB</span><span class="t">::</span><span class="t">Pool</span>
+<pre><code class="language-crystal"><span class="k">class</span> <span class="t">DB</span><span class="t">::</span><span class="t">Pool</span>
   <span class="t">Log</span> <span class="o">=</span> <span class="t">DB</span><span class="t">::</span><span class="t">Log</span>.<span class="k">for</span>(<span class="s">&quot;pool&quot;</span>) <span class="c"># =&gt; Log for db.pool source</span>
 <span class="k">end</span></code></pre>
 
@@ -178,7 +178,7 @@ the configured severity filter <code>level</code> permits it.</p>
 <p>Logs can also be created from a type directly. For the type <code>DB::Pool</code> the source <code>db.pool</code> will be used.
 For generic types as <code>Foo::Bar(Baz)</code> the source <code>foo.bar</code> will be used (i.e. without generic arguments).</p>
 
-<pre><code><span class="k">module</span> <span class="t">DB</span>
+<pre><code class="language-crystal"><span class="k">module</span> <span class="t">DB</span>
   <span class="t">Log</span> <span class="o">=</span> <span class="t">::</span><span class="t">Log</span>.<span class="k">for</span>(<span class="k">self</span>) <span class="c"># =&gt; Log for db source</span>
 <span class="k">end</span></code></pre>
 
@@ -193,7 +193,9 @@ be logged to <code>STDOUT</code> using the <code>Log::IOBackend</code>.</p>
 
 <p>If you need to change the default level, backend or sources call <code>Log.setup</code> upon startup.</p>
 
-<pre><code><span class="t">Log</span>.setup(<span class="n">:debug</span>)                     <span class="c"># Log debug and above for all sources to STDOUT</span>
+<p><span class="flag purple">NOTE</span>  Calling <code>setup</code> will override previous <code>setup</code> calls.</p>
+
+<pre><code class="language-crystal"><span class="t">Log</span>.setup(<span class="n">:debug</span>)                     <span class="c"># Log debug and above for all sources to STDOUT</span>
 <span class="t">Log</span>.setup(<span class="s">&quot;myapp.*, http.*&quot;</span>, <span class="n">:notice</span>) <span class="c"># Log notice and above for myapp.* and http.* sources only, and log nothing for any other source.</span>
 backend_with_formatter <span class="o">=</span> <span class="t">Log</span><span class="t">::</span><span class="t">IOBackend</span>.<span class="k">new</span>(formatter: custom_formatter)
 <span class="t">Log</span>.setup(<span class="n">:debug</span>, backend_with_formatter) <span class="c"># Log debug and above for all sources to using a custom backend</span></code></pre>
@@ -215,7 +217,7 @@ warnings (or higher) to <code>STDOUT</code>, allow any of the <code>db.*</code> 
 nested source to emit debug (or higher), and to also emit for all
 sources errors (or higher) to an elasticsearch backend.</p>
 
-<pre><code><span class="t">Log</span>.setup <span class="o">|</span>c<span class="o">|</span>
+<pre><code class="language-crystal"><span class="t">Log</span>.setup <span class="k">do</span> <span class="o">|</span>c<span class="o">|</span>
   backend <span class="o">=</span> <span class="t">Log</span><span class="t">::</span><span class="t">IOBackend</span>.<span class="k">new</span>
 
   c.bind <span class="s">&quot;*&quot;</span>, <span class="n">:warn</span>, backend
@@ -231,7 +233,7 @@ sources errors (or higher) to an elasticsearch backend.</p>
 
 <p>Include the following line to allow configuration from environment variables.</p>
 
-<pre><code><span class="t">Log</span>.setup_from_env</code></pre>
+<pre><code class="language-crystal"><span class="t">Log</span>.setup_from_env</code></pre>
 
 <p>The environment variable <code>LOG_LEVEL</code> is used to indicate which severity level to emit.
 By default entries from all sources with <code>Info</code> and above severity will
@@ -243,7 +245,7 @@ be logged to <code>STDOUT</code> using the <code>Log::IOBackend</code>.</p>
 
 <p>You can tweak the default values (used when <code>LOG_LEVEL</code> variable is not defined):</p>
 
-<pre><code><span class="t">Log</span>.setup_from_env(default_level: <span class="n">:error</span>)</code></pre>
+<pre><code class="language-crystal"><span class="t">Log</span>.setup_from_env(default_level: <span class="n">:error</span>)</code></pre>
 
 
 
