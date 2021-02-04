@@ -62,6 +62,9 @@ describe Log do
       formatter = ::Log::Formatter.new { |_entry, io| io << "original formatter" }
       backend = ::Log::IOBackend.new(original_io)
       backend.formatter = formatter
+      {% if compare_versions(Crystal::VERSION, "0.36.0-0") >= 0 %}
+        backend.dispatcher = Log::Dispatcher.for(:sync)
+      {% end %}
       log = Log.for("temp_config_with_options")
       ::Log.builder.bind(log.source, :none, backend)
       log.level.should eq(::Log::Severity::None)
@@ -150,16 +153,9 @@ describe Log do
   end
 end
 
-private class StubbedBackend < Log::Backend
-  getter! entry : Log::Entry?
-
-  def write(@entry) : Log::Entry
-  end
-end
-
 private def log_stubbed : Log::Entry
-  backend = StubbedBackend.new
+  backend = Log::MemoryBackend.new
   log = Log.new("dexter.text", backend: backend, level: :debug)
   yield log
-  backend.entry
+  backend.entries.first
 end

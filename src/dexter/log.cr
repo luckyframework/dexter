@@ -59,14 +59,14 @@ class Log
     # the most common way to configure logs. If you want to configure a log and
     # none of its children it is best to set the `level` or `backend` directly:
     #
-    # ```crystal
+    # ```
     # MyShard::Log.level = :error
     # MyShard::Log.backend = MyCustomBackend.new
     # ```
     #
     # ## Examples:
     #
-    # ```crystal
+    # ```
     # # Configure all logs.
     # # Similar to `Log.builder.bind "*"`
     # Log.dexter.configure(:info, backend)
@@ -114,7 +114,7 @@ class Log
     #
     # ## Examples
     #
-    # ```crystal
+    # ```
     # MyShard::Log.dexter.temp_config do |log_io|
     #   MyShard::Log.info { "log me" }
     #   log_io.to_s.should contain("log me")
@@ -142,7 +142,6 @@ class Log
     def temp_config(io : IO = IO::Memory.new, level : ::Log::Severity = Log::Severity::Debug, formatter : ::Log::Formatter? = nil) : Nil
       # TODO Log.capture from "log/spec" module
 
-      io ||= IO::Memory.new
       log_class = ::Log.for(log.source)
       original_backend = log_class.backend
       original_level = log_class.level
@@ -167,13 +166,13 @@ class Log
     {% for method, severity in SEVERITY_MAP %}
       # Logs key/value data in the Log::Context under the 'local' key
       #
-      # ```crystal
+      # ```
       # Log.dexter.{{ method.id }} { {path: "/comments", status: 200 }}
       # ```
       #
       # You can also pass an exception:
       #
-      # ```crystal
+      # ```
       # Log.dexter.{{ method.id }}(exception) { { query: "SELECT *" } }
       # ```
       def {{method.id}}(*, exception : Exception? = nil, &block : -> NamedTuple | Hash) : Nil
