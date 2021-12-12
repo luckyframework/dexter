@@ -29,6 +29,7 @@ module Dexter
         "source"    => entry.source,
         "timestamp" => entry.timestamp,
       }
+      data["data"] = entry.data.to_json unless entry.data.empty?
       data["message"] = entry.message unless entry.message.empty?
       data
     end
