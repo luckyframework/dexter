@@ -17,7 +17,7 @@ describe Dexter::JSONLogFormatter do
     entry = build_entry({my_data: "is great!"}, source: "json-test", severity: :debug, data: Log::Metadata.build({metadata: "is great!", more_data: "more!"}))
     format(entry, io)
     io.to_s.chomp.should eq(
-      {severity: "Debug", source: "json-test", timestamp: timestamp, data: {metadata: "is great!", more_data: "more!"}.to_json, my_data: "is great!"}.to_json
+      {severity: "Debug", source: "json-test", timestamp: timestamp, data: {metadata: "is great!", more_data: "more!"}, my_data: "is great!"}.to_json
     )
   end
 

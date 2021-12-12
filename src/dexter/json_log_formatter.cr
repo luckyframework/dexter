@@ -24,14 +24,21 @@ module Dexter
     end
 
     private def default_data
-      data = {
-        "severity"  => entry.severity.to_s,
-        "source"    => entry.source,
-        "timestamp" => entry.timestamp,
-      }
-      data["data"] = entry.data.to_json unless entry.data.empty?
+      data = Hash(String, String | Time | Hash(String, String)).new
+      data["severity"] = entry.severity.to_s
+      data["source"] = entry.source
+      data["timestamp"] = entry.timestamp
+      data["data"] = metadata unless entry.data.empty?
       data["message"] = entry.message unless entry.message.empty?
       data
+    end
+
+    private def metadata
+      Hash(String, String).new.tap do |hash|
+        entry.data.each do |key, value|
+          hash[key.to_s] = value.to_s
+        end
+      end
     end
 
     private def exception_data
