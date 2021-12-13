@@ -12,6 +12,15 @@ describe Dexter::JSONLogFormatter do
     )
   end
 
+  it "formats the entry metadata as json" do
+    io = IO::Memory.new
+    entry = build_entry({my_data: "is great!"}, source: "json-test", severity: :debug, data: Log::Metadata.build({metadata: "is great!", more_data: "more!"}))
+    format(entry, io)
+    io.to_s.chomp.should eq(
+      {severity: "Debug", source: "json-test", timestamp: timestamp, data: {metadata: "is great!", more_data: "more!"}, my_data: "is great!"}.to_json
+    )
+  end
+
   it "formats complex types" do
     io = IO::Memory.new
     entry = build_entry({args: [1], params: {foo: "bar"}, other: {arr: [1]}}, source: "json-test", severity: :debug)
