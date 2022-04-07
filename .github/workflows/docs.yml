@@ -2,13 +2,13 @@ name: Deploy docs
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     container:
-      image: crystallang/crystal:0.36.1
+      image: crystallang/crystal:1.3.2
     steps:
       - uses: actions/checkout@v2
         with:
