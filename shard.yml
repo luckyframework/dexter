@@ -1,10 +1,10 @@
 name: dexter
-version: 0.3.3
+version: 0.3.4
 
 authors:
   - Paul Smith <paulcsmith0218@gmail.com>
 
-crystal: ">= 0.36.1, < 2.0.0"
+crystal: ">= 1.0.0"
 
 license: MIT
 
