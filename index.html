@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.35.1">
-<meta name="crystal_docs.project_version" content="0.3.3">
+<meta name="generator" content="Crystal Docs 1.2.2">
+<meta name="crystal_docs.project_version" content="main">
 <meta name="crystal_docs.project_name" content="dexter">
 
 
@@ -13,7 +13,7 @@
 <script type="text/javascript" src="js/doc.js"></script>
 
   <meta name="repository-name" content="dexter">
-  <title>dexter 0.3.3</title>
+  <title>dexter main</title>
   <script type="text/javascript">
   CrystalDocs.base_path = "";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        0.3.3
+        main
       </span>
     </div>
   </div>
@@ -98,46 +98,44 @@
 
 
 <div class="main-content">
-<h1><a id="dexter" class="anchor" href="#dexter">
-  <svg class="octicon-link" aria-hidden="true">
+<h1><a id="dexter" class="anchor" href="#dexter">  <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Dexter</h1>
-
-<p><a href="https://luckyframework.github.io/dexter"><img src="https://img.shields.io/website?down_color=red&down_message=Offline&label=API%20Documentation&up_message=Online&url=https%3A%2F%2Fluckyframework.github.io%2Fdexter%2F" alt="API Documentation Website"/></a></p>
-
+<p><a href="https://luckyframework.github.io/dexter"><img src="https://img.shields.io/website?down_color=red&amp;down_message=Offline&amp;label=API%20Documentation&amp;up_message=Online&amp;url=https://luckyframework.github.io/dexter/" alt="API Documentation Website" /></a></p>
 <p>Extensions to Crystal's <code><a href="Log.html">Log</a></code> class.</p>
-
-<ul><li>100% compatible with built-in Crystal's <a href="https://crystal-lang.org/api/latest/Log.html"><code>Log</code></a></li><li>Adds methods for easily logging key/value data</li><li>Built-in <code><a href="Dexter/JSONLogFormatter.html">Dexter::JSONLogFormatter</a></code> for formatting Logs as JSON</li><li>Helper class for making log formatting simpler and more flexible</li><li>Simpler configuration with helpful compile-time guarantees</li><li>Helper methods for testing log output more easily</li></ul>
-
+<ul>
+<li>100% compatible with built-in Crystal's <a href="https://crystal-lang.org/api/latest/Log.html"><code>Log</code></a></li>
+<li>Adds methods for easily logging key/value data</li>
+<li>Built-in <code><a href="Dexter/JSONLogFormatter.html">Dexter::JSONLogFormatter</a></code> for formatting Logs as JSON</li>
+<li>Helper class for making log formatting simpler and more flexible</li>
+<li>Simpler configuration with helpful compile-time guarantees</li>
+<li>Helper methods for testing log output more easily</li>
+</ul>
 <p>And everything is optional so if you only want the JSON formatter you can just use that.
 Dexter does not break the existing <code><a href="Log.html">Log</a></code> and is a <em>very</em> small library.</p>
-
 <h2><a id="installation" class="anchor" href="#installation">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Installation</h2>
-
-<ol><li>Add the dependency to your <code>shard.yml</code>:</li></ol>
-
-<p><code></code>`yaml
-   dependencies:</p>
-
-<pre><code class="language-crystal"> dexter:
-   github: luckyframework/dexter
-   version: ~> 0.3</code></pre>
-
-<p><code></code>`</p>
-
-<ol><li>Run <code>shards install</code></li></ol>
-
+<ol>
+<li>
+<p>Add the dependency to your <code>shard.yml</code>:</p>
+<pre><code class="language-yaml">dependencies:
+  dexter:
+    github: luckyframework/dexter
+    version: ~&gt; 0.3</code></pre>
+</li>
+<li>
+<p>Run <code>shards install</code></p>
+</li>
+</ol>
 <h2><a id="getting-started-example" class="anchor" href="#getting-started-example">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Getting started example</h2>
-
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;dexter&quot;</span>
 
 backend <span class="o">=</span> <span class="t">Log</span><span class="t">::</span><span class="t">IOBackend</span>.<span class="k">new</span>
@@ -157,28 +155,24 @@ backend.formatter <span class="o">=</span> <span class="t">Dexter</span><span cl
 <span class="c">#</span>
 <span class="c"># Logs timestamp, severity and {message: &quot;My message&quot;} as JSON</span>
 <span class="t">Log</span>.info { <span class="s">&quot;My message&quot;</span> }</code></pre>
-
 <h2><a id="type-safe-log-configuration" class="anchor" href="#type-safe-log-configuration">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Type-safe Log configuration</h2>
-
-<p>Use `{LogClass}.dexter.configure to configure <code>{LogClass}</code> and its child logs</p>
-
+<p>Use <code>{LogClass}.dexter.configure to configure</code>{LogClass}` and its child logs</p>
 <p>Rather than pass a string <code>source</code> to <code>Log.builder.bind</code> you can configure a
 log using its class. This is a type-safe and simpler alternative to using
 <code>Log.builder.bind</code>.</p>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples:</h2>
-
-<blockquote>Note: the backend can be left off and it will use the <code>{LogClass}</code>'s
-> existing backend or a new <code>Log::IOBackend</code></blockquote>
-
+<blockquote>
+<p>Note: the backend can be left off and it will use the <code>{LogClass}</code>'s
+existing backend or a new <code>Log::IOBackend</code></p>
+</blockquote>
 <pre><code class="language-crystal"><span class="c"># Configure all logs.</span>
 <span class="c"># Similar to `Log.builder.bind &quot;*&quot;`</span>
 <span class="t">Log</span>.dexter.configure(<span class="n">:info</span>, backend)
@@ -190,78 +184,73 @@ log using its class. This is a type-safe and simpler alternative to using
 <span class="c"># Can further customize child Logs</span>
 <span class="t">Avram</span><span class="t">::</span><span class="t">QueryLog</span>.dexter.configure(<span class="n">:none</span>)
 <span class="t">Avram</span><span class="t">::</span><span class="t">FailedQueryLog</span>.dexter.configure(<span class="n">:info</span>, <span class="t">SomeOtherBackend</span>.<span class="k">new</span>)</code></pre>
-
 <p><code>{LogClass}.dexter.configure</code> sets all child logs to the given
 level/backend . If you want to configure a Log and leave its children alone
 it is best to set the <code>level</code> or <code>backend</code> directly:</p>
-
 <pre><code class="language-crystal"><span class="t">MyShard</span><span class="t">::</span><span class="t">Log</span>.level <span class="o">=</span> <span class="n">:error</span>
 <span class="t">MyShard</span><span class="t">::</span><span class="t">Log</span>.backend <span class="o">=</span> <span class="t">MyCustomBackend</span>.<span class="k">new</span></code></pre>
-
 <h2><a id="test-helpers" class="anchor" href="#test-helpers">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Test helpers</h2>
-
 <p>This will temporarily configure the given log with a <code>Log::IOBackend</code>
 with an <code>IO::Memory</code> that is yielded. The log level is also
 temporarily set to <code>:debug</code> to log all messages</p>
-
 <pre><code class="language-crystal"><span class="t">MyShard</span><span class="t">::</span><span class="t">Log</span>.dexter.temp_config <span class="k">do</span> <span class="o">|</span>log_io<span class="o">|</span>
   <span class="t">MyShard</span><span class="t">::</span><span class="t">Log</span>.info { <span class="s">&quot;log me&quot;</span> }
   log_io.to_s.should contain(<span class="s">&quot;log me&quot;</span>)
 <span class="k">end</span></code></pre>
-
 <p>There are more options for changing the level, passing your own IO, etc. See
 the <a href="https://github.com/luckyframework/dexter/blob/6144739a6d1a2d0f64d95a89086495c17cafe7eb/src/dexter/log.cr#L80">documentation</a> for more details</p>
-
 <h2><a id="built-in-formatters" class="anchor" href="#built-in-formatters">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Built-in formatters</h2>
-
 <p>Dexter works with <em>any</em> <code>Log::Formatter</code>, but has a JSON formatter built-in
 that works especially well.</p>
-
-<ul><li>Logs exceptions in an easily parseable format</li></ul>
-
+<ul>
+<li>Logs exceptions in an easily parseable format</li>
+</ul>
 <pre><code class="language-json">{
-  "exception": { "class": "RuntimeError", "message": "Something broke", backtrace: ["line_of_code.cr:123"] }
+  &quot;exception&quot;: { &quot;class&quot;: &quot;RuntimeError&quot;, &quot;message&quot;: &quot;Something broke&quot;, backtrace: [&quot;line_of_code.cr:123&quot;] }
 }</code></pre>
-
-<ul><li>Puts string message in a <code>message</code> key that comes first so you can find it easily</li><li>JSON works great for searching logs with many SaaS logging services</li></ul>
-
+<ul>
+<li>Puts string message in a <code>message</code> key that comes first so you can find it easily</li>
+<li>JSON works great for searching logs with many SaaS logging services</li>
+</ul>
 <h2><a id="create-your-own-formatter" class="anchor" href="#create-your-own-formatter">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Create your own formatter</h2>
-
 <p>Included is a <code><a href="Dexter/JSONLogFormatter.html">Dexter::JSONLogFormatter</a></code>, but you can create your own formatter to format
 and output log data however you want. For example,
 <a href="https://luckyframework.org">Lucky</a> has a <code>PrettyLogFormatter</code> that formats data
 in a human readable format during development, and uses the <code>JSONLogFormatter</code>
 in production.</p>
-
 <p>See an example formatter in <a href="https://github.com/luckyframework/dexter/blob/master/src/dexter/json_log_formatter.cr">Dexter::JSONLogFormatter</a></p>
-
 <h2><a id="contributing" class="anchor" href="#contributing">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Contributing</h2>
-
-<ol><li>Fork it (&lt;https://github.com/luckyframework/dexter/fork>)</li><li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li><li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li><li>Push to the branch (<code>git push origin my-new-feature</code>)</li><li>Create a new Pull Request</li></ol>
-
+<ol>
+<li>Fork it (<a href="https://github.com/luckyframework/dexter/fork">https://github.com/luckyframework/dexter/fork</a>)</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create a new Pull Request</li>
+</ol>
 <h2><a id="contributors" class="anchor" href="#contributors">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Contributors</h2>
-
-<ul><li><a href="https://github.com/paulcsmith">Paul Smith</a> - creator and maintainer</li></ul>
+<ul>
+<li><a href="https://github.com/paulcsmith">Paul Smith</a> - creator and maintainer</li>
+</ul>
 </div>
 </body>
 </html>
