@@ -2,17 +2,18 @@ name: Deploy docs
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    container:
-      image: crystallang/crystal:1.3.2
     steps:
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
+      - uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: latest
       - name: "Install shards"
         run: shards install
       - name: "Generate docs"
